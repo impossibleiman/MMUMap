@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Display a Map with Restricted Panning</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@v10.1.0/ol.css">
+    <script src="https://cdn.jsdelivr.net/npm/ol@v10.1.0/dist/ol.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        #map {
+            flex: 1; /* Take up remaining space */
+            height: 100vh; /* Full height */
+            transition: margin-left 0.3s ease; /* Smooth transition for map */
+        }
+
+        #sidebar {
+            width: 250px; /* Fixed width for sidebar */
+            background: white;
+            border-left: 1px solid #ccc;
+            padding: 10px;
+            overflow-y: auto; /* Scroll if content overflows */
+            height: 100vh; /* Full height */
+            display: flex;
+            flex-direction: column; /* Stack items vertically */
+        }
+
+        .building-item {
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .building-item:hover {
+            background-color: #f0f0f0; /* Highlight on hover */
+        }
+
+        #search-input {
+            padding: 10px; /* Increase padding for larger input */
+            font-size: 16px; /* Increase font size */
+            border: 1px solid #ccc; /* Border for input */
+            border-radius: 5px; /* Rounded corners */
+            margin-bottom: 10px; /* Space below the search input */
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <div id="sidebar">
+        <h3>Buildings</h3>
+        <input id="search-input" type="text" placeholder="Search buildings...">
+        <div id="building-list"></div>
+    </div>
+    <script>
+        const key = 'La4pNquPljoL0TLDNGM2';
+
+        const attribution = new ol.control.Attribution({
+            collapsible: false,
+        });
+
+        const source = new ol.source.TileJSON({
+            url: `https://api.maptiler.com/maps/streets-v2/tiles.json?key=${key}`,
+            tileSize: 512,
+            crossOrigin: 'anonymous'
+        });
+
+        const map = new ol.Map({
+            layers: [
+                new ol.layer.Tile({
+                    source: source
+                })
+            ],
+            controls: ol.control.defaults.defaults({attribution: false}).extend([attribution]),
+            target: 'map',
+            view: new ol.View({
+                constrainResolution: true,
+                center: ol.proj.fromLonLat([-2.23835, 53.47034]),
+                minZoom: 17,
+                maxZoom: 22,
+                zoom: 17,
+                extent: ol.proj.transformExtent([-2.245, 53.468, //bottom left 
+                -2.235, 53.475], //top right 
+                'EPSG:4326', 'EPSG:3857'), // sets extent
+                constrainOnlyCenter: true // Restrict panning based on the center
+            })
+        });
+
+        // Mapping of building IDs to names
+        const idToNameMap = {
+            "bc6e385e-d39d-40c6-8337-a660f119c78f": "Dalton Building",
+            "74fc890b-6117-4937-bbd9-0a3a8b7d9617": "Business School",
+            "02ba99d8-0939-478b-9d03-1e52b012cd10" : "Library",
+            // Add more mappings as needed
+        };
+
+        // Add the vector layer for the polygons from the GeoJSON source
+        const layer = new ol.layer.Vector({
+            source: new ol.source.Vector({
+                url: `https://api.maptiler.com/data/8f696bc5-fc6a-4434-a792-dc6508e98d38/features.json?key=${key}`,
+                format: new ol.format.GeoJSON(),
+            }),
+            style: function(feature) {
+                const id = feature.getId(); // Get the feature ID
+                const name = idToNameMap[id] || "Unknown"; // Get the name from the mapping
+                return new ol.style.Style({
+                    stroke: new ol.style.Stroke({
+                        color: 'rgba(0, 136, 136, 0.8)',
+                        width: 2
+                    }),
+                    fill: new ol.style.Fill({
+                        color: 'rgba(0, 136, 136, 0.4)',
+                    }),
+                    text: new ol.style.Text({
+                        text: name, // Use the mapped name
+                        font: '12px Calibri,sans-serif',
+                        fill: new ol.style.Fill({
+                            color: '#000'
+                        }),
+                        stroke: new ol.style.Stroke({
+                            color: '#fff',
+                            width: 2
+                        }),
+                        offsetX: 0,
+                        offsetY: 15 // Adjust the vertical position of the text
+                    })
+                });
+            }
+        });
+        map.addLayer(layer);
+
+        // Populate the sidebar with building names
+        const buildingList = document.getElementById('building-list');
+
+        // Wait for the features to load before populating the sidebar
+        layer.getSource().on('change', function() {
+            if (layer.getSource().getFeatures().length > 0) {
+                const features = layer.getSource().getFeatures();
+                const buildingItems = [];
+
+                features.forEach(feature => {
+                    const id = feature.getId(); // Get the feature ID
+                    const buildingName = idToNameMap[id] || "Unknown"; // Get the name from the mapping
+                    buildingItems.push({ name: buildingName, feature: feature }); // Store name and feature
+                });
+
+                // Sort building items alphabetically by name
+                buildingItems.sort((a, b) => a.name.localeCompare(b.name));
+
+                // Clear existing list and append sorted items
+                buildingList.innerHTML = '';
+                buildingItems.forEach(item => {
+                    const buildingItem = document.createElement('div');
+                    buildingItem.className = 'building-item';
+                    buildingItem.textContent = item.name;
+
+                    // Add click event to zoom to the building
+                    buildingItem.addEventListener('click', function() {
+                        const extent = item.feature.getGeometry().getExtent();
+                        map.getView().fit(extent, { duration: 1000 });
+                    });
+
+                    buildingList.appendChild(buildingItem);
+                });
+            }
+        });
+
+        // Search functionality
+        const searchInput = document.getElementById('search-input');
+        searchInput.addEventListener('input', function() {
+            const searchQuery = searchInput.value.toLowerCase();
+            const items = buildingList.getElementsByClassName('building-item');
+
+            Array.from(items).forEach(item => {
+                const text = item.textContent.toLowerCase();
+                item.style.display = text.includes(searchQuery) ? 'block' : 'none';
+            });
+        });
+
+        // Handle click event on the map for polygons
+        map.on('click', function(evt) {
+            const feature = map.forEachFeatureAtPixel(evt.pixel, function(feature) {
+                return feature;
+            });
+
+            if (feature) {
+                const id = feature.getId();
+                if (id === "bc6e385e-d39d-40c6-8337-a660f119c78f") { // Check if it's the Dalton Building
+                    window.location.href = 'map.html'; // Redirect to map.html
+                }
+            }
+        });
+    </script>
+</body>
+</html>

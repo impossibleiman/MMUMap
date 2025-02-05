@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Interactive Building Map</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        body {
+            margin: 0; /* Remove margin */
+            display: flex;
+        }
+        #map {
+            height: 100vh; /* Set the height of the map to full viewport height */
+            width: 99%; /* Set the width of the map to 75% of the container */
+        }
+        #sidebar {
+            width: 15%; /* Thinner sidebar */
+            padding: 10px;
+            background: white;
+            border-left: 1px solid #ccc;
+            overflow-y: auto; /* Scroll if content overflows */
+            height: 100vh; /* Full height */
+            position: relative; /* Position relative for stacking */
+        }
+        .building-item {
+            padding: 5px; /* Reduced padding for less whitespace */
+            cursor: pointer;
+            width: 100%;
+        }
+        .building-item:hover {
+            background-color: #f0f0f0; /* Highlight on hover */
+        }
+        #search-input {
+            padding: 5px; /* Reduced padding for the search input */
+            font-size: 16px; /* Increase font size */
+            border: 1px solid #ccc; /* Border for input */
+            border-radius: 5px; /* Rounded corners */
+            margin-bottom: 10px; /* Space below the search input */
+            width: calc(80% - 24px); /* Full width minus padding */
+        }
+        #coordinates {
+            margin-top: 10px; /* Space above coordinates */
+            font-size: 16px; /* Font size for coordinates */
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <div id="sidebar">
+        <h3>Rooms</h3>
+        <div id="coordinates">Coordinates: </div> <!-- Moved coordinates here -->
+        <input id="search-input" type="text" placeholder="Search rooms...">
+        <div id="building-list"></div>
+        
+    </div>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        // Initialize the map
+        var map = L.map('map', {
+            center: [53.47034, -2.23835], // Set initial center
+            zoom: 19, // Set initial zoom level
+            minZoom: 20, // Set minimum zoom level
+            maxZoom: 22 // Set maximum zoom level
+        });
+
+        // Add your custom image as a tile layer
+        var imageUrl = 'DB-00-Access-1.png'; // Replace with your image path
+
+        // Set the geographical bounds for your image
+        var imageBounds = [[53.46, -2.243], [53.461, -2.245]]; // Replace with actual geographical coordinates
+
+        L.imageOverlay(imageUrl, imageBounds).addTo(map);
+        map.fitBounds(imageBounds); // Fit the map to the image bounds
+
+        // Add locations for specific rooms
+        var locations = [
+            { name: "G.20", coords: [53.46064, -2.24486] },
+            { name: "G.21", coords: [53.46064, -2.24476] },
+            { name: "G.22", coords: [53.46064, -2.24469] },
+            { name: "G.24", coords: [53.46063, -2.24420] },
+            { name: "G.26", coords: [53.46068, -2.24402] },
+            { name: "G.26b", coords: [53.46070, -2.24408] },
+            { name: "G.30", coords: [53.46046, -2.24399] },
+            { name: "G.34", coords: [53.46054, -2.24419] },
+            { name: "G.37", coords: [53.46054, -2.24400] },
+            { name: "G.39", coords: [53.460647, -2.243859] },
+            { name: "G.39a", coords: [53.46064, -2.24374] },
+            { name: "G.39b", coords: [53.46067, -2.24374] },
+            { name: "G.40", coords: [53.46062, -2.24375] },
+            { name: "G.41", coords: [53.46064, -2.24365] },
+            { name: "G.42", coords: [53.46054, -2.24361] },
+            { name: "G.44", coords: [53.46049, -2.24367] },
+        ];
+
+        // Populate the sidebar with building names
+        const buildingList = document.getElementById('building-list');
+
+        locations.forEach(location => {
+            const buildingItem = document.createElement('div');
+            buildingItem.className = 'building-item';
+            buildingItem.textContent = location.name;
+
+            // Add click event to zoom to the building
+            buildingItem.addEventListener('click', function() {
+                map.setView(location.coords, 22); // Zoom to the building
+            });
+
+            buildingList.appendChild(buildingItem);
+        });
+
+        // Search functionality
+        const searchInput = document.getElementById('search-input');
+        searchInput.addEventListener('input', function() {
+            const searchQuery = searchInput.value.toLowerCase();
+            const items = buildingList.getElementsByClassName('building-item');
+
+            Array.from(items).forEach(item => {
+                const text = item.textContent.toLowerCase();
+                item.style.display = text.includes(searchQuery) ? 'block' : 'none';
+            });
+        });
+
+        // Display coordinates and zoom level on mouse move
+        map.on('mousemove', function(e) {
+            var zoomLevel = map.getZoom(); // Get the current zoom level
+            document.getElementById('coordinates').innerHTML = 
+                'Coordinates: ' + e.latlng.lat.toFixed(5) + ', ' + e.latlng.lng.toFixed(5) + 
+                ' | Zoom: ' + zoomLevel; // Display coordinates and zoom level
+        });
+
+        // Define the geographical bounds for the map
+        var bounds = [[53.46, -2.245], [53.461, -2.243]]; // Replace with your desired bounds
+
+        // Set the maximum bounds for the map
+        map.setMaxBounds(bounds);
+
+        // Optional: Prevent the map from being dragged outside the bounds
+        map.on('drag', function() {
+            map.panInsideBounds(bounds);
+        });
+    </script>
+</body>
+</html>

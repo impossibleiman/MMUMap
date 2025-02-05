@@ -1,0 +1,39 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "dalton-building",
+                "label": "Dalton Building"
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [[
+                    [-2.2385, 53.4668],
+                    [-2.2380, 53.4668],
+                    [-2.2380, 53.4670],
+                    [-2.2385, 53.4670],
+                    [-2.2385, 53.4668]
+                ]]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "business-school",
+                "label": "Business School"
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [[
+                    [-2.2375, 53.4660],
+                    [-2.2370, 53.4660],
+                    [-2.2370, 53.4665],
+                    [-2.2375, 53.4665],
+                    [-2.2375, 53.4660]
+                ]]
+            }
+        }
+    ]
+}

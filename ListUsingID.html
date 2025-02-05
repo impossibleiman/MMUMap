@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Map with Building List</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@v10.1.0/ol.css">
+    <script src="https://cdn.jsdelivr.net/npm/ol@v10.1.0/dist/ol.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        #map {
+            flex: 1; /* Take up remaining space */
+            height: 100vh; /* Full height */
+        }
+
+        #sidebar {
+            width: 250px; /* Fixed width for sidebar */
+            background: white;
+            border-left: 1px solid #ccc;
+            padding: 10px;
+            overflow-y: auto; /* Scroll if content overflows */
+            height: 100vh; /* Full height */
+            display: flex;
+            flex-direction: column; /* Stack items vertically */
+        }
+
+        .building-item {
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .building-item:hover {
+            background-color: #f0f0f0; /* Highlight on hover */
+        }
+
+        #search-input {
+            padding: 10px; /* Increase padding for larger input */
+            font-size: 16px; /* Increase font size */
+            border: 1px solid #ccc; /* Border for input */
+            border-radius: 5px; /* Rounded corners */
+            margin-bottom: 10px; /* Space below the search input */
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <div id="sidebar">
+        <h3>Buildings</h3>
+        <input id="search-input" type="text" placeholder="Search buildings...">
+        <div id="building-list"></div>
+    </div>
+    <script>
+        const key = 'La4pNquPljoL0TLDNGM2';
+
+        // Mapping of building IDs to names
+        const idToNameMap = {
+            "bc6e385e-d39d-40c6-8337-a660f119c78f": "Dalton Building",
+            "74fc890b-6117-4937-bbd9-0a3a8b7d9617": "Business School",
+            // Add more mappings as needed
+        };
+
+        const map = new ol.Map({
+            target: 'map',
+            layers: [
+                new ol.layer.Tile({
+                    source: new ol.source.OSM()
+                })
+            ],
+            view: new ol.View({
+                center: ol.proj.fromLonLat([-2.23835, 53.47034]),
+                zoom: 17
+            })
+        });
+
+        // Add the vector layer for the polygons from the GeoJSON source
+        const layer = new ol.layer.Vector({
+            source: new ol.source.Vector({
+                url: `https://api.maptiler.com/data/8f696bc5-fc6a-4434-a792-dc6508e98d38/features.json?key=${key}`,
+                format: new ol.format.GeoJSON(),
+            }),
+            style: function(feature) {
+                const id = feature.getId(); // Get the feature ID
+                const name = idToNameMap[id] || "Unknown"; // Get the name from the mapping
+                return new ol.style.Style({
+                    stroke: new ol.style.Stroke({
+                        color: 'rgba(0, 136, 136, 0.8)',
+                        width: 2
+                    }),
+                    fill: new ol.style.Fill({
+                        color: 'rgba(0, 136, 136, 0.4)',
+                    }),
+                    text: new ol.style.Text({
+                        text: name, // Use the mapped name
+                        font: '12px Calibri,sans-serif',
+                        fill: new ol.style.Fill({
+                            color: '#000'
+                        }),
+                        stroke: new ol.style.Stroke({
+                            color: '#fff',
+                            width: 2
+                        }),
+                        offsetX: 0,
+                        offsetY: 15 // Adjust the vertical position of the text
+                    })
+                });
+            }
+        });
+        map.addLayer(layer);
+
+        // Populate the sidebar with building names
+        const buildingList = document.getElementById('building-list');
+
+        // Wait for the features to load before populating the sidebar
+        layer.getSource().on('change', function() {
+            if (layer.getSource().getFeatures().length > 0) {
+                const features = layer.getSource().getFeatures();
+                const buildingItems = [];
+
+                features.forEach(feature => {
+                    const id = feature.getId(); // Get the feature ID
+                    const buildingName = idToNameMap[id] || "Unknown"; // Get the name from the mapping
+                    buildingItems.push({ name: buildingName, feature: feature }); // Store name and feature
+                });
+
+                // Sort building items alphabetically by name
+                buildingItems.sort((a, b) => a.name.localeCompare(b.name));
+
+                // Clear existing list and append sorted items
+                buildingList.innerHTML = '';
+                buildingItems.forEach(item => {
+                    const buildingItem = document.createElement('div');
+                    buildingItem.className = 'building-item';
+                    buildingItem.textContent = item.name;
+
+                    // Add click event to zoom to the building
+                    buildingItem.addEventListener('click', function() {
+                        const extent = item.feature.getGeometry().getExtent();
+                        map.getView().fit(extent, { duration: 1000 });
+                    });
+
+                    buildingList.appendChild(buildingItem);
+                });
+            }
+        });
+
+        // Search functionality
+        const searchInput = document.getElementById('search-input');
+        searchInput.addEventListener('input', function() {
+            const searchQuery = searchInput.value.toLowerCase();
+            const items = buildingList.getElementsByClassName('building-item');
+
+            Array.from(items).forEach(item => {
+                const text = item.textContent.toLowerCase();
+                item.style.display = text.includes(searchQuery) ? 'block' : 'none';
+            });
+        });
+    </script>
+</body>
+</html>

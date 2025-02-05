@@ -1,0 +1,56 @@
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [53.4605 , -2.243682],
+            [53.4605, -2.24354],
+            [53.460574, -2.243542],
+            [53.460574, -2.243682]
+          ]
+        ]
+      },
+      "id": "Room X",
+      "properties": {
+
+      }
+    }
+	,
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [1 ,1 ],
+            [ 1,1 ],
+            [1 ,1 ]
+          ]
+        ]
+      },
+      "id": "Room Y",
+      "properties": {
+
+      }
+    }
+  ],
+  "metadata": {
+    "tileStats": {
+      "layers": [
+        {
+          "layer": "Dalton Rooms",
+          "sourceType": "geojson",
+          "attributes": [],
+          "attributeCount": 0,
+          "geometry": [
+            "Polygon"
+          ]
+        }
+      ],
+      "layerCount": 1
+    }
+  }
+}

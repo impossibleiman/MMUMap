@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Map with Autocomplete Search</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@v10.1.0/ol.css">
+    <script src="https://cdn.jsdelivr.net/npm/ol@v10.1.0/dist/ol.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        #map {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+        }
+
+        #search-bar {
+            position: absolute;
+            bottom: 20px; /* Position from the bottom */
+            left: 50%; /* Center horizontally */
+            transform: translateX(-50%); /* Adjust for centering */
+            z-index: 1000;
+            background: white;
+            padding: 10px;
+            border: 1px solid black;
+            border-radius: 5px; /* Rounded corners */
+            display: flex; /* Use flexbox for alignment */
+            flex-direction: column; /* Stack input and suggestions */
+        }
+
+        #search-input {
+            padding: 10px; /* Increase padding for larger input */
+            font-size: 16px; /* Increase font size */
+            border: 1px solid #ccc; /* Border for input */
+            border-radius: 5px; /* Rounded corners */
+            margin-bottom: 5px; /* Space between input and suggestions */
+        }
+
+        #suggestions {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            max-height: 150px; /* Limit height of suggestions */
+            overflow-y: auto; /* Scroll if too many suggestions */
+            display: none; /* Initially hidden */
+            background: white;
+            z-index: 1001; /* Ensure suggestions are above other elements */
+        }
+
+        .suggestion-item {
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .suggestion-item:hover {
+            background-color: #f0f0f0; /* Highlight on hover */
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <div id="search-bar">
+        <input id="search-input" type="text" placeholder="Search for a building...">
+        <div id="suggestions"></div>
+    </div>
+    <script>
+        const key = 'La4pNquPljoL0TLDNGM2';
+
+        const map = new ol.Map({
+            target: 'map',
+            layers: [
+                new ol.layer.Tile({
+                    source: new ol.source.OSM()
+                })
+            ],
+            view: new ol.View({
+                center: ol.proj.fromLonLat([-2.23835, 53.47034]),
+                zoom: 17
+            })
+        });
+
+        // Mapping of building IDs to names
+        const idToNameMap = {
+            "bc6e385e-d39d-40c6-8337-a660f119c78f": "Dalton Building",
+            // Add more mappings as needed
+            // "your-building-id": "Your Building Name"
+        };
+
+        // Add the vector layer for the polygons from the GeoJSON source
+        const layer = new ol.layer.Vector({
+            source: new ol.source.Vector({
+                url: `https://api.maptiler.com/data/8f696bc5-fc6a-4434-a792-dc6508e98d38/features.json?key=${key}`,
+                format: new ol.format.GeoJSON(),
+            }),
+            style: function(feature) {
+                return new ol.style.Style({
+                    stroke: new ol.style.Stroke({
+                        color: 'rgba(0, 136, 136, 0.8)',
+                        width: 2
+                    }),
+                    fill: new ol.style.Fill({
+                        color: 'rgba(0, 136, 136, 0.4)',
+                    }),
+                    text: new ol.style.Text({
+                        text: idToNameMap[feature.getId()] || "Unknown", // Use the mapped name
+                        font: '12px Calibri,sans-serif',
+                        fill: new ol.style.Fill({
+                            color: '#000'
+                        }),
+                        stroke: new ol.style.Stroke({
+                            color: '#fff',
+                            width: 2
+                        }),
+                        offsetX: 0,
+                        offsetY: 15 // Adjust the vertical position of the text
+                    })
+                });
+            }
+        });
+        map.addLayer(layer);
+
+        // Get the search input and suggestions elements
+        const searchInput = document.getElementById('search-input');
+        const suggestionsContainer = document.getElementById('suggestions');
+
+        // Store building IDs for autocomplete
+        const buildingIDs = layer.getSource().getFeatures().map(feature => feature.getId());
+
+        // Add an event listener for input changes
+        searchInput.addEventListener('input', function() {
+            const searchQuery = searchInput.value.trim().toLowerCase();
+            suggestionsContainer.innerHTML = ''; // Clear previous suggestions
+
+            if (searchQuery) {
+                // Filter building IDs based on the search query
+                const filteredIDs = buildingIDs.filter(id => idToNameMap[id].toLowerCase().includes(searchQuery));
+
+                // Show suggestions if there are any matches
+                if (filteredIDs.length > 0) {
+                    suggestionsContainer.style.display = 'block'; // Show suggestions
+                    filteredIDs.forEach(id => {
+                        const suggestionItem = document.createElement('div');
+                        suggestionItem.className = 'suggestion-item';
+                        suggestionItem.textContent = idToNameMap[id]; // Get the name from the mapping
+
+                        // Add click event to each suggestion
+                        suggestionItem.addEventListener('click', function() {
+                            const feature = layer.getSource().getFeatures().find(f => f.getId() === id);
+                            if (feature) {
+                                const extent = feature.getGeometry().getExtent();
+                                map.getView().fit(extent, { duration: 1000 });
+                            }
+                            suggestionsContainer.style.display = 'none'; // Hide suggestions after selection
+                        });
+
+                        suggestionsContainer.appendChild(suggestionItem);
+                    });
+                } else {
+                    suggestionsContainer.style.display = 'none'; // Hide if no matches
+                }
+            } else {
+                suggestionsContainer.style.display = 'none'; // Hide if input is empty
+            }
+        });
+
+        // Hide suggestions when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!searchInput.contains(event.target) && !suggestionsContainer.contains(event.target)) {
+                suggestionsContainer.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
