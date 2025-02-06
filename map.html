@@ -13,6 +13,7 @@
         #map {
             height: 100vh;
             width: 99%;
+            position: relative; /* Make the map container relative for absolute positioning of the button */
         }
         #sidebar {
             width: 15%;
@@ -35,19 +36,59 @@
             margin-top: 10px;
             font-size: 16px;
         }
+        #go-back-button {
+            position: absolute;
+            top: 10px; /* Adjust as needed */
+            left: 50px; /* Adjust as needed */
+            z-index: 1000; /* Ensure it appears above the map */
+            padding: 10px 15px;
+            background-color: #007bff; /* Bootstrap primary color */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #go-back-button:hover {
+            background-color: #0056b3; /* Darker shade on hover */
+        }
+        #route-controls {
+            position: absolute;
+            bottom: 20px; /* Adjust as needed */
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            z-index: 1000; /* Ensure it appears above the map */
+        }
+        select {
+            width: 150px; /* Adjust width as needed */
+            margin: 5px;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
     </style>
 </head>
 <body>
-    <div id="map"></div>
+    <div id="map">
+        <button id="go-back-button">Go Back</button> <!-- Go Back Button -->
+        <div id="route-controls">
+            <label for="start-select"></label>
+            <select id="start-select">
+                <option value="" disabled selected>Select Start</option>
+            </select>
+            <label for="end-select"></label>
+            <select id="end-select">
+                <option value="" disabled selected>Select End</option>
+            </select>
+        </div>
+    </div>
     <div id="sidebar">
         <h3>Rooms</h3>
         <div id="coordinates">Coordinates: </div>
-        <label for="start-select">Start:</label>
-        <select id="start-select"></select>
-        <label for="end-select">End:</label>
-        <select id="end-select"></select>
         <div id="building-list"></div>
-        <button id="go-back-button">Go Back</button> <!-- Go Back Button -->
     </div>
 
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
@@ -240,7 +281,7 @@
         function showPosition(position) {
             const lat = position.coords.latitude - 0.0111559;
             const lng = position.coords.longitude - 0.0036985;
-            console.log("User  's location:", lat, lng); // Debugging line
+            console.log("User 's location:", lat, lng); // Debugging line
             userLocationMarker.setLatLng([lat, lng]).setOpacity(1); // Update marker position and show it
             map.setView([lat, lng], 19); // Center the map on the user's location
         }
