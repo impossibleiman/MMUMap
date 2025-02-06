@@ -46,6 +46,10 @@
             border-radius: 5px; /* Rounded corners */
             margin-bottom: 10px; /* Space below the search input */
         }
+
+        #demo {
+            margin-top: 10px; /* Space above the demo output */
+        }
     </style>
 </head>
 <body>
@@ -54,6 +58,7 @@
         <h3>Buildings</h3>
         <input id="search-input" type="text" placeholder="Search buildings...">
         <div id="building-list"></div>
+        <div id="demo"></div> <!-- Element to display location -->
     </div>
     <script>
         const key = 'La4pNquPljoL0TLDNGM2';
@@ -89,11 +94,68 @@
             })
         });
 
+        // Add user location feature
+        const userLocationLayer = new ol.layer.Vector({
+            source: new ol.source.Vector(),
+        });
+        map.addLayer(userLocationLayer);
+
+        // Function to get the user's location
+        function getLocation() {
+            const x = document.getElementById("demo");
+            if (navigator.geolocation) {
+                navigator.geolocation.watchPosition(showPosition, showError, {
+                    enableHighAccuracy: true,
+                    maximumAge: 10000,
+                    timeout: 5000
+                });
+            } else {
+                x.innerHTML = "Geolocation is not supported by this browser.";
+            }
+        }
+
+        // Function to show the position on the map
+        function showPosition(position) {
+            const x = document.getElementById("demo");
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+
+            x.innerHTML = "Latitude: " + latitude + "<br>Longitude: " + longitude;
+
+                        // Convert coordinates to map projection
+                        const coords = ol.proj.fromLonLat([longitude, latitude]);
+            const feature = new ol.Feature(new ol.geom.Point(coords));
+            userLocationLayer.getSource().clear(); // Clear previous location
+            userLocationLayer.getSource().addFeature(feature); // Add new location feature
+
+            // Center the map on the user's location
+            map.getView().setCenter(coords);
+        }
+
+        // Function to handle errors
+        function showError(error) {
+            const x = document.getElementById("demo");
+            switch(error.code) {
+                case error.PERMISSION_DENIED:
+                    x.innerHTML = "User  denied the request for Geolocation.";
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    x.innerHTML = "Location information is unavailable.";
+                    break;
+                case error.TIMEOUT:
+                    x.innerHTML = "The request to get user location timed out.";
+                    break;
+                case error.UNKNOWN_ERROR:
+                    x.innerHTML = "An unknown error occurred.";
+                    break;
+            }
+        }
+
         // Mapping of building IDs to names
         const idToNameMap = {
             "bc6e385e-d39d-40c6-8337-a660f119c78f": "Dalton Building",
             "74fc890b-6117-4937-bbd9-0a3a8b7d9617": "Business School",
-            "02ba99d8-0939-478b-9d03-1e52b012cd10" : "Library",
+            "02ba99d8-0939-478b-9d03-1e52b012cd10": "Library",
             // Add more mappings as needed
         };
 
@@ -193,6 +255,9 @@
                 }
             }
         });
+
+        // Call getLocation to start watching the user's location when the page loads
+        getLocation();
     </script>
 </body>
 </html>
