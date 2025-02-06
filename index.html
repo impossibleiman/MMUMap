@@ -11,21 +11,21 @@
             margin: 0;
             padding: 0;
             display: flex;
+            flex-direction: column; /* Stack items vertically */
+            height: 100vh; /* Full height */
         }
 
         #map {
             flex: 1; /* Take up remaining space */
-            height: 100vh; /* Full height */
             transition: margin-left 0.3s ease; /* Smooth transition for map */
         }
 
         #sidebar {
-            width: 250px; /* Fixed width for sidebar */
+            width: 100%; /* Full width for sidebar */
             background: white;
-            border-left: 1px solid #ccc;
+            border-top: 1px solid #ccc; /* Border on top for mobile */
             padding: 10px;
             overflow-y: auto; /* Scroll if content overflows */
-            height: 100vh; /* Full height */
             display: flex;
             flex-direction: column; /* Stack items vertically */
         }
@@ -49,6 +49,19 @@
 
         #demo {
             margin-top: 10px; /* Space above the demo output */
+        }
+
+        /* Media query for mobile devices */
+        @media (min-width: 768px) {
+            body {
+                flex-direction: row; /* Stack items horizontally for desktop */
+            }
+
+            #sidebar {
+                width: 250px; /* Fixed width for sidebar */
+                border-left: 1px solid #ccc; /* Border on left for desktop */
+                border-top: none; /* Remove top border for desktop */
+            }
         }
     </style>
 </head>
@@ -122,8 +135,8 @@
 
             x.innerHTML = "Latitude: " + latitude + "<br>Longitude: " + longitude;
 
-                        // Convert coordinates to map projection
-                        const coords = ol.proj.fromLonLat([longitude, latitude]);
+            // Convert coordinates to map projection
+            const coords = ol.proj.fromLonLat([longitude, latitude]);
             const feature = new ol.Feature(new ol.geom.Point(coords));
             userLocationLayer.getSource().clear(); // Clear previous location
             userLocationLayer.getSource().addFeature(feature); // Add new location feature
