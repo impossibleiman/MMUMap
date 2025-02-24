@@ -81,6 +81,14 @@
     <script>
         const key = 'La4pNquPljoL0TLDNGM2';
 
+        // Define bounds (latitude and longitude limits)
+        const bounds = {
+            north: 53.475, // Northern boundary
+            south: 53.468, // Southern boundary
+            east: -2.235,  // Eastern boundary
+            west: -2.245   // Western boundary
+        };
+
         const attribution = new ol.control.Attribution({
             collapsible: false,
         });
@@ -105,8 +113,8 @@
                 minZoom: 17,
                 maxZoom: 22,
                 zoom: 17,
-                extent: ol.proj.transformExtent([-2.245, 53.468, //bottom left 
-                -2.235, 53.475], //top right 
+                extent: ol.proj.transformExtent([bounds.west, bounds.south, //bottom left 
+                bounds.east, bounds.north], //top right 
                 'EPSG:4326', 'EPSG:3857'), // sets extent
                 constrainOnlyCenter: true // Restrict panning based on the center
             })
@@ -123,7 +131,6 @@
             const x = document.getElementById("demo");
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(showPosition, showError, {
-
                     enableHighAccuracy: true,
                     maximumAge: 10000,
                     timeout: 5000
@@ -140,22 +147,11 @@
             const latitude = position.coords.latitude;
             const longitude = position.coords.longitude;
 
-            // Define bounds (latitude and longitude limits)
-            const bounds = {
-                north: 53.475, // Northern boundary
-                south: 53.468, // Southern boundary
-                east: -2.235,  // Eastern boundary
-                west: -2.245   // Western boundary
-            };
-
             // Check if the user is out of bounds
             if (latitude > bounds.north || latitude < bounds.south || longitude > bounds.east || longitude < bounds.west) {
                 alert("You are out of bounds!");
                 return; // Exit the function if out of bounds
             }
-
-
-
 
             // Convert coordinates to map projection
             const coords = ol.proj.fromLonLat([longitude, latitude]);
@@ -166,6 +162,7 @@
             // Center the map on the user's location
             map.getView().setCenter(coords);
         }
+
 
         // Function to handle errors
         function showError(error) {
@@ -186,6 +183,10 @@
             }
         }
 
+
+
+
+        
         // Mapping of building IDs to names
         const idToNameMap = {
             "bc6e385e-d39d-40c6-8337-a660f119c78f": "John Dalton",
