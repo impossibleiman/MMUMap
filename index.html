@@ -141,6 +141,16 @@
 
             // Convert coordinates to map projection
             const coords = ol.proj.fromLonLat([longitude, latitude]);
+            const extent = ol.proj.transformExtent([-2.245, 53.468, //bottom left 
+                -2.235, 53.475], //top right 
+                'EPSG:4326', 'EPSG:3857'); // sets extent
+
+            // Check if the user's location is within the defined extent
+            if (!ol.extent.containsCoordinate(extent, coords)) {
+                alert("You are not in the vicinity.");
+                return; // Exit the function if the user is out of bounds
+            }
+
             const feature = new ol.Feature(new ol.geom.Point(coords));
             userLocationLayer.getSource().clear(); // Clear previous location
             userLocationLayer.getSource().addFeature(feature); // Add new location feature
