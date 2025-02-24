@@ -122,7 +122,8 @@
         function getLocation() {
             const x = document.getElementById("demo");
             if (navigator.geolocation) {
-                navigator.geolocation.watchPosition(showPosition, showError, {
+                navigator.geolocation.getCurrentPosition(showPosition, showError, {
+
                     enableHighAccuracy: true,
                     maximumAge: 10000,
                     timeout: 5000
