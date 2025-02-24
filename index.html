@@ -133,7 +133,6 @@
             const latitude = position.coords.latitude;
             const longitude = position.coords.longitude;
 
-            x.innerHTML = "Latitude: " + latitude + "<br>Longitude: " + longitude;
 
             // Convert coordinates to map projection
             const coords = ol.proj.fromLonLat([longitude, latitude]);
@@ -195,7 +194,7 @@
         // Add the vector layer for the polygons from the GeoJSON source
         const layer = new ol.layer.Vector({
             source: new ol.source.Vector({
-                url: `https://api.maptiler.com/data/8f696bc5-fc6a-4434-a792-dc6508e98d38/features.json?key=La4pNquPljoL0TLDNGM2`, //Sajid's work
+                url: `https://api.maptiler.com/data/8f696bc5-fc6a-4434-a792-dc6508e98d38/features.json?key=${key}`, //Sajid's work
                 format: new ol.format.GeoJSON(),
             }),
             style: function(feature) {
