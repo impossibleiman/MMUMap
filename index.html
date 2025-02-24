@@ -68,7 +68,11 @@
 <body>
     <div id="map"></div>
     <div id="sidebar">
-        <h3>Buildings</h3>
+        <h3>
+            Buildings
+            <button onclick="GetLocation()">Find Me</button>
+        </h3>
+        
         <input id="search-input" type="text" placeholder="Search buildings...">
         <div id="building-list"></div>
         <div id="demo"></div> <!-- Element to display location -->
@@ -288,8 +292,6 @@
             }
         });
 
-        // Call getLocation to start watching the user's location when the page loads
-        getLocation();
     </script>
 </body>
 </html>
