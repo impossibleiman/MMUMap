@@ -133,11 +133,28 @@
             }
         }
 
-        // Function to show the position on the map
+        // Function to show the position on the map and check bounds
+
         function showPosition(position) {
             const x = document.getElementById("demo");
             const latitude = position.coords.latitude;
             const longitude = position.coords.longitude;
+
+            // Define bounds (latitude and longitude limits)
+            const bounds = {
+                north: 53.475, // Northern boundary
+                south: 53.468, // Southern boundary
+                east: -2.235,  // Eastern boundary
+                west: -2.245   // Western boundary
+            };
+
+            // Check if the user is out of bounds
+            if (latitude > bounds.north || latitude < bounds.south || longitude > bounds.east || longitude < bounds.west) {
+                alert("You are out of bounds!");
+                return; // Exit the function if out of bounds
+            }
+
+
 
 
             // Convert coordinates to map projection
