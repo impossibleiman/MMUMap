@@ -47,8 +47,8 @@
             margin-bottom: 10px; /* Space below the search input */
         }
 
-        #devLocation {
-            margin-top: 10px; /* Space above the devLocation output */
+        #demo {
+            margin-top: 10px; /* Space above the demo output */
         }
 
         /* Media query for mobile devices */
@@ -75,11 +75,8 @@
         </h3>
         
         <input id="search-input" type="text" placeholder="Search buildings...">
-        <button onclick="sortByClosest()">Sort by Closest</button>
-        <button onclick="sortAlphabetically()">Sort Alphabetically</button>
-
         <div id="building-list"></div>
-        <div id="devLocation"></div> <!-- Element to display location -->
+        <div id="demo"></div> <!-- Element to display location -->
     </div>
     <script>
         const key = 'La4pNquPljoL0TLDNGM2';
@@ -131,7 +128,7 @@
 
         // Function to get the user's location
         function getLocation() {
-            const x = document.getElementById("devLocation");
+            const x = document.getElementById("demo");
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(showPosition, showError, {
                     enableHighAccuracy: true,
@@ -146,14 +143,12 @@
         // Function to show the position on the map and check bounds
 
         function showPosition(position) {
-            const x = document.getElementById("devLocation");
+            const x = document.getElementById("demo");
             const latitude = position.coords.latitude;
             const longitude = position.coords.longitude;
 
             // Check if the user is out of bounds
             if (latitude > bounds.north || latitude < bounds.south || longitude > bounds.east || longitude < bounds.west) {
-                console.log(latitude - bounds.north);
-                console.log(latitude - bounds.south);
                 alert("You are out of bounds!");
                 return; // Exit the function if out of bounds
             }
@@ -171,7 +166,7 @@
 
         // Function to handle errors
         function showError(error) {
-            const x = document.getElementById("devLocation");
+            const x = document.getElementById("demo");
             switch(error.code) {
                 case error.PERMISSION_DENIED:
                     x.innerHTML = "User  denied the request for Geolocation.";
@@ -191,7 +186,7 @@
 
 
 
-
+        
         // Mapping of building IDs to names
         const idToNameMap = {
             "bc6e385e-d39d-40c6-8337-a660f119c78f": "John Dalton",
@@ -205,6 +200,9 @@
             "1da782e2-8d16-47b6-9c89-63b766b43be1": "Palace Theatre",
             "7ae8d749-11fa-4979-a2be-99382a19def5": "BH",
             "5a2459cf-ae99-45fa-b889-52b6b589da4e": "OM",
+            "8652be8a-29c4-4299-84c5-ffa6ada5b3b1": "Cavendish",
+            "992a7614-a545-4e6e-ae1a-817068e9543f": "Righton",
+            "90af8d8e-078f-46e1-a16e-32ac1d97aa93": "Grosvenor West",
             "a2039bd2-6c4f-4393-ba28-3f854180959f": "Grosvenor East",
             "8e0e84f1-1d8f-4529-9306-d4593e099b43": "Geoffrey Manton",
             "47892739-1067-4351-bc45-d425819a2392": "Chatham",
