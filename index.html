@@ -150,6 +150,8 @@
             // Check if the user is out of bounds
             if (latitude > bounds.north || latitude < bounds.south || longitude > bounds.east || longitude < bounds.west) {
                 alert("You are out of bounds!");
+                console.log(latitude - bounds.north);
+                console.log(latitude - bounds.south);
                 return; // Exit the function if out of bounds
             }
 
