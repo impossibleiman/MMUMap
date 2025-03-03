@@ -159,7 +159,20 @@
             // Convert coordinates to map projection
             const coords = ol.proj.fromLonLat([longitude, latitude]);
             const feature = new ol.Feature(new ol.geom.Point(coords));
-            feature.scale(2, 2, coords);
+            const style = new ol.style.Style({
+                image: new ol.style.Circle({
+                    radius: 10, // Increase the radius for a larger point
+                    fill: new ol.style.Fill({
+                        color: 'rgba(255, 0, 0, 1)' // Color of the point
+                    }),
+                    stroke: new ol.style.Stroke({
+                        color: 'rgba(0, 0, 0, 1)', // Outline color
+                        width: 2 // Outline width
+                    })
+                })
+            });
+            feature.setStyle(style);
+
             userLocationLayer.getSource().clear(); // Clear previous location
             userLocationLayer.getSource().addFeature(feature); // Add new location feature
 
