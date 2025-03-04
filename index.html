@@ -54,14 +54,13 @@
         /* Media query for mobile devices */
         @media (min-width: 768px) {
             body {
-                flex-direction: column; /* Stack items horizontally for mobile */
+                flex-direction: row; /* Stack items horizontally for desktop */
             }
 
             #sidebar {
-                height: 20%; /* Fixed width for sidebar */
-                border-top: none; /* Remove top border for mobile */
-                border-left: none;
-                border-right: none;
+                width: 250px; /* Fixed width for sidebar */
+                border-left: 1px solid #ccc; /* Border on left for desktop */
+                border-top: none; /* Remove top border for desktop */
             }
         }
     </style>
