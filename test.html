@@ -110,12 +110,9 @@
             view: new ol.View({
                 constrainResolution: true,
                 center: ol.proj.fromLonLat([-2.23835, 53.47034]),
-                minZoom: 17,
+                minZoom: 15,
                 maxZoom: 22,
                 zoom: 17,
-//                extent: ol.proj.transformExtent([bounds.west, bounds.south, //bottom left 
-//               bounds.east, bounds.north], //top right 
-//                'EPSG:4326', 'EPSG:3857'), // sets extent
                 constrainOnlyCenter: true // Restrict panning based on the center
             })
         });
