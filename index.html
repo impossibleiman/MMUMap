@@ -52,7 +52,7 @@
         }
 
         /* Media query for mobile devices */
-        @media (min-width: 1290px) {
+        @media (min-width: 768px) {
             body {
                 flex-direction: column; /* Stack items horizontally for mobile */
             }
@@ -60,6 +60,8 @@
             #sidebar {
                 height: 20%; /* Fixed width for sidebar */
                 border-top: none; /* Remove top border for mobile */
+                border-left: none;
+                border-right: none;
             }
         }
     </style>
