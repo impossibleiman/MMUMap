@@ -51,7 +51,18 @@
             margin-top: 10px; /* Space above the demo output */
         }
 
-        
+        /* Media query for mobile devices */
+        @media (min-width: 768px) {
+            body {
+                flex-direction: column; /* Stack items horizontally for mobile */
+            }
+
+            #sidebar {
+                height: 20%; /* Fixed width for sidebar */
+                border-left: 1px solid #ccc; /* Border on left for mobile */
+                border-top: none; /* Remove top border for mobile */
+            }
+        }
     </style>
 </head>
 <body>
