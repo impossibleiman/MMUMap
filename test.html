@@ -69,9 +69,8 @@
     <div id="map"></div>
     <div id="sidebar">
         <h3>
-            Buildings
+            <button onclick="CenterCam()">Center</button>
             <button onclick="getLocation()">Find Me</button>
-
         </h3>
         
         <input id="search-input" type="text" placeholder="Search buildings...">
@@ -81,16 +80,11 @@
     <script>
         const key = 'La4pNquPljoL0TLDNGM2';
 
-        // Define bounds (latitude and longitude limits)
-        const bounds = {
-            north: 53.475, // Northern boundary
-            south: 53.464, // Southern boundary
-            east: -2.237,  // Eastern boundary
-            west: -2.247   // Western boundary
-        };
+        
+        const center = ol.proj.fromLonLat([-2.23835, 53.47034])
 
         const attribution = new ol.control.Attribution({
-            collapsible: false,
+            collapsible: true,
         });
 
         const source = new ol.source.TileJSON({
@@ -112,8 +106,7 @@
                 center: ol.proj.fromLonLat([-2.23835, 53.47034]),
                 minZoom: 15,
                 maxZoom: 22,
-                zoom: 17,
-                constrainOnlyCenter: true // Restrict panning based on the center
+                zoom: 17
             })
         });
 
@@ -122,6 +115,12 @@
             source: new ol.source.Vector(),
         });
         map.addLayer(userLocationLayer);
+
+
+        // Function to center camera
+        function CenterCam(){
+            map.getView().setCenter();
+        }
 
         // Function to get the user's location
         function getLocation() {
