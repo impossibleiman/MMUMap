@@ -51,7 +51,7 @@
             margin-top: 10px; /* Space above the demo output */
         }
 
-        /* Media query for mobile devices */
+        /* Media query for desktop devices */
         @media (min-width: 768px) {
             body {
                 flex-direction: row; /* Stack items horizontally for desktop */
@@ -61,6 +61,17 @@
                 width: 250px; /* Fixed width for sidebar */
                 border-left: 1px solid #ccc; /* Border on left for desktop */
                 border-top: none; /* Remove top border for desktop */
+            }
+        }
+
+        @media (max-width: 768px){
+            body{
+                flex-direction: row;
+            }
+
+            #sidebar{
+                width: 20%;
+                border: none;
             }
         }
     </style>
