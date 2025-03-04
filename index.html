@@ -71,7 +71,6 @@
         <h3>
             Buildings
             <button onclick="getLocation()">Find Me</button>
-
         </h3>
         
         <input id="search-input" type="text" placeholder="Search buildings...">
@@ -141,18 +140,14 @@
         }
 
         // Function to show the position on the map and check bounds
-
         function showPosition(position) {
             const x = document.getElementById("demo");
             const latitude = position.coords.latitude;
-            console.log(latitude);
             const longitude = position.coords.longitude;
-            console.log(longitude);
 
             // Check if the user is out of bounds
-            if (latitude > bounds.north + 0.05|| latitude < bounds.south - 0.05 || longitude > bounds.east + 0.005 || longitude < bounds.west - 0.05) {
+            if (latitude > bounds.north + 0.05 || latitude < bounds.south - 0.05 || longitude > bounds.east + 0.005 || longitude < bounds.west - 0.05) {
                 alert("You are out of bounds!");
-                
                 return; // Exit the function if out of bounds
             }
 
@@ -180,13 +175,12 @@
             map.getView().setCenter(coords);
         }
 
-
         // Function to handle errors
         function showError(error) {
             const x = document.getElementById("demo");
             switch(error.code) {
                 case error.PERMISSION_DENIED:
-                    x.innerHTML = "User  denied the request for Geolocation.";
+                    x.innerHTML = "User denied the request for Geolocation.";
                     break;
                 case error.POSITION_UNAVAILABLE:
                     x.innerHTML = "Location information is unavailable.";
@@ -200,10 +194,6 @@
             }
         }
 
-
-
-
-        
         // Mapping of building IDs to names
         const idToNameMap = {
             "bc6e385e-d39d-40c6-8337-a660f119c78f": "John Dalton",
