@@ -160,6 +160,7 @@
 
             //Ground Floor
             { name: "Main Entrance", coords: [53.4606676, -2.2443270]},
+            { name: "Back Entrance", coords: [53.4605061, -2.2438757]},
             { name: "G.20", coords: [53.46064, -2.24487], polygonPoints: [[53.4606106, -2.2448791],[53.4606648, -2.2449529],[53.4606650, -2.244797],[53.4606110, -2.244797]] },
             { name: "G.21", coords: [53.46064, -2.24476], polygonPoints: [] },
             { name: "G.22", coords: [53.46064, -2.24469], polygonPoints: [] },
@@ -192,7 +193,7 @@
 
         // Room data for each floor
         const floorRooms = {
-            0: ["Main Entrance", "G.20", "G.21", "G.22", "G.24", "G.26", "G.30", "G.34", "G.37", "G.39", "G.40", "G.41", "G.42", "G.44", ],
+            0: ["Main Entrance", "Back Entrance", "G.20", "G.21", "G.22", "G.24", "G.26", "G.30", "G.34", "G.37", "G.39", "G.40", "G.41", "G.42", "G.44", ],
             1: ["Room 1A", "Room 1B", "Room 1C"],
             2: ["Room 2A", "Room 2B", "Room 2C"],
             3: ["Room 3A", "Room 3B", "Room 3C"],
@@ -243,7 +244,6 @@
         // Change image and bounds based on selected floor
         document.getElementById('floor-select').addEventListener('change', function() {
             const selectedFloor = this.value;
-            console.log(selectedFloor);
             const newImageUrl = imageUrls[selectedFloor];
             const newImageBounds = imageBounds[selectedFloor];
             if (newImageUrl && newImageBounds) {
@@ -287,25 +287,6 @@
         // Load initial room list for Ground Floor
         updateRoomList(0);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
         function updateRoute() {
             const start = startSelect.value;
             const end = endSelect.value;
@@ -315,43 +296,15 @@
             }
 
             if (start && end) {
-                const routeNodes = findPath(start, end); // Pass only start and end
-                console.log("Route Nodes:", routeNodes); // Debugging output
-                
-                // Show the route from start to stairs first
-                const startToStairs = routeNodes.startToStairs.map(node => node.coords);
-                currentRoute = L.polyline(startToStairs, { color: 'blue', weight: 4 }).addTo(map);
-                map.fitBounds(currentRoute.getBounds());
+                const routeNodes = findPath(start, end);
 
-                // Listen for floor change to show stairs to end route
-                document.getElementById('floor-select').addEventListener('change', function() {
-                    const selectedFloor = this.value;
-                    if (selectedFloor == 1) { // Check if the selected floor is the first floor
-                        const stairsToEnd = routeNodes.stairsToEnd.map(node => node.coords);
-                        currentRoute = L.polyline(stairsToEnd, { color: 'blue', weight: 4 }).addTo(map);
-                        map.fitBounds(currentRoute.getBounds());
-                    }
-
-                });
-
+                if (routeNodes.length > 0) {
+                    const routePoints = routeNodes.map(node => node.coords);
+                    currentRoute = L.polyline(routePoints, { color: 'blue', weight: 4 }).addTo(map);
+                    map.fitBounds(currentRoute.getBounds());
+                }
             }
         }
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         map.on('mousemove', function(e) {
             var zoomLevel = map.getZoom();
@@ -366,97 +319,67 @@
             map.panInsideBounds(bounds);
         });
 
-
-
-
-
-
-
-
-
-
-
         let currentRoute = null; // Variable to hold the current route
 
         // Define nodes with connections
         var nodes = [
+
             //GROUND FLOOR NODES
-            { id: "G.20", coords: [53.46064, -2.24487], connections: ["G.node1"] },
-            { id: "G.node1", coords: [53.4605799, -2.2448003], connections: ["G.node2", "G.20"] },
-            { id: "G.node2", coords: [53.4605799, -2.24476], connections: ["G.21", "G.node1", "G.node3"] },
-            { id: "G.21", coords: [53.46064, -2.24476], connections: ["G.node2"] },
-            { id: "G.node3", coords: [53.4606030, -2.2443759], connections: ["G.26", "G.node2", "Stairs1"] },
-            { id: "G.26", coords: [53.46068, -2.24402], connections: ["G.node3"] },
-            { id: "Stairs1", coords: [53.4604697, -2.2438301], connections: ["G.node3", "1.01"] },
+            { id: "G.20", coords: [53.46064, -2.24487], connections: ["node1"] },
+            { id: "node1", coords: [53.4605799, -2.2448003], connections: ["node2", "G.20"] },
+            { id: "node2", coords: [53.4605799, -2.24476], connections: ["G.21", "node1", "node3"] },
+            { id: "G.21", coords: [53.46064, -2.24476], connections: ["node2"] },
+            { id: "node3", coords: [53.4606030, -2.2443759], connections: ["G.26", "node2", "Stairs1"] },
+            { id: "G.26", coords: [53.46068, -2.24402], connections: ["node3"] },
+            
+            
+            { id: "Stairs1", coords: [53.4604697, -2.2438301], connections: ["node3", "1.01"] },
+            
+            
             // FIRST FLOOR NODES
             { id: "1.01", coords: [53.4606577, -2.2442988], connections: ["Stairs1"] },
+
+
             // SECOND FLOOR NODES
+
             // THIRD FLOOR NODES
+
             // FOURTH FLOOR NODES
+
             // FIFTH FLOOR NODES
+
             // SIXTH FLOOR NODES
+
             // SEVENTH FLOOR NODES
+
         ];
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 
         // Function to find the path between two nodes
         function findPath(startId, endId) {
-            const startNode = nodes.find(node => node.id === startId);
-            const endNode = nodes.find(node => node.id === endId);
-
-            let stairNode = null; // Variable to hold the nearest stair node
-            let sameFloorPath = []; // Path from start to stair
-            let stairToEndPath = []; // Path from stair to end
-
-            console.log("Start Node:", startNode); // Debugging output
-            console.log("End Node:", endNode); // Debugging output
+            let startNode = nodes.find(node => node.id === startId);
+            let endNode = nodes.find(node => node.id === endId);
 
             if (!startNode || !endNode) {
-                console.log("Invalid start or end node."); // Debugging output
                 return []; // Return empty if nodes are not found
             }
 
-            const visited = new Set();
+            let visited = new Set();
             let queue = [[startNode]];
+            let paths = [];
 
-            // First, find the path to the nearest stair node
             while (queue.length > 0) {
-                const path = queue.shift();
-                const node = path[path.length - 1];
+                let path = queue.shift();
+                let node = path[path.length - 1];
 
-                if (node.id === "Stairs1") {
-                    stairNode = node; // Found the stair node
-                    sameFloorPath = path; // Path to the stair node
-                    console.log("Stair Node Found:", stairNode); // Debugging output
-                    break; // Exit the loop once we find the stair
+                if (node.id === endId) {
+                    paths.push(path);
+                    continue; // Found a path to the end node
                 }
 
                 if (!visited.has(node.id)) {
                     visited.add(node.id);
                     for (let connection of node.connections) {
-                        const nextNode = nodes.find(n => n.id === connection);
+                        let nextNode = nodes.find(n => n.id === connection);
                         if (nextNode) {
                             queue.push([...path, nextNode]);
                         }
@@ -464,56 +387,9 @@
                 }
             }
 
-            // If a stair node was found, continue to find the path to the end node
-            if (stairNode) {
-                const stairQueue = [[stairNode]];
-                const stairVisited = new Set();
-
-                while (stairQueue.length > 0) {
-                    const path = stairQueue.shift();
-                    const node = path[path.length - 1];
-
-
-                    if (!stairVisited.has(node.id)) {
-                        stairVisited.add(node.id);
-                        for (let connection of node.connections) {
-                            const nextNode = nodes.find(n => n.id === connection);
-                            if (nextNode) {
-                                stairQueue.push([...path, nextNode]);
-                            }
-                        }
-                    }
-                }
-            }
-
-            // Return separate paths: start to stairs and stairs to end
-            console.log("Path from Start to Stairs:", sameFloorPath); // Debugging output
-            console.log("Path from Stairs to End:", stairToEndPath); // Debugging output
-            return { startToStairs: sameFloorPath, stairsToEnd: stairToEndPath };
-
+            // Return the first found path (you can modify this to return the shortest path)
+            return paths.length > 0 ? paths[0] : [];
         }
-
-        // Function to get the floor number from the node ID
-        function getFloor(nodeId) {
-            return parseInt(nodeId.charAt(0)); // Assuming the first character indicates the floor
-        }
-
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         // Add keydown event listener to copy coordinates to clipboard when "C" is pressed
         document.addEventListener('keydown', function(event) {
@@ -530,6 +406,7 @@
                 }
             }
         });
+
 
         // Add event listener for the "Go Back" button
         document.getElementById('go-back-button').addEventListener('click', function() {
