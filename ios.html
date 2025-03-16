@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Institute of Sport Building</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            height: 100vh; /* Ensure body takes full height */
+        }
+        #map {
+            height: 100%; /* Make map take full height */
+            width: 85%; /* Adjust width to leave space for sidebar */
+        }
+        #sidebar {
+            height: 100%; /* Ensure sidebar takes full height */
+            width: 15%;
+            padding: 10px;
+            padding-bottom: 0%; 
+            padding-top: 0%; 
+            background: white;
+            overflow-y: auto;
+            position: relative;
+        }
+        .building-item {
+            padding: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+        .building-item:hover {
+            background-color: #f0f0f0;
+        }
+        #coordinates {
+            margin-top: 10px;
+            font-size: 16px
+        }
+        #go-back-button {
+            position: absolute;
+            top: 10px; /* Adjust as needed */
+            left: 50px; /* Adjust as needed */
+            z-index: 1000; /* Ensure it appears above the map */
+            padding: 10px 15px;
+            background-color: #007bff; /* Bootstrap primary color */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #go-back-button:hover {
+            background-color: #0056b3; /* Darker shade on hover */
+        }
+        #route-controls {
+            position: absolute;
+            bottom: 20px; /* Adjust as needed */
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            z-index: 1000; /* Ensure it appears above the map */
+        }
+        select {
+            width: 150px; /* Adjust width as needed */
+            margin: 5px;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        #floor-controls {
+            position: absolute; /* Make it float */
+            bottom: 30px; /* Position it at the top */
+            right: 10px; /* Adjust as needed */
+            z-index: 1000; /* Ensure it appears above the map */
+            background: rgb(215, 215, 215); /* Background for visibility */
+            padding: 1px;
+            border-radius: 5px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+
+            margin-top: 100%;
+            margin-right:20%;
+            margin-left:20%;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="map">
+        <button id="go-back-button">Go Back</button> <!-- Go Back Button -->
+        <div id="route-controls">
+            <label for="start-select"></label>
+            <select id="start-select">
+                <option value="" disabled selected>Select Start</option>
+            </select>
+            <label for="end-select"></label>
+            <select id="end-select">
+                <option value="" disabled selected>Select End</option>
+            </select>
+        </div>
+    </div>
+    <div id="sidebar">
+        <h3>Rooms</h3>
+        <div id="coordinates">Coordinates: </div>
+        <div id="building-list"></div>
+        <div id="floor-controls">
+            <select id="floor-select">
+                <option value="0" selected>Ground Floor</option>
+                <option value="1">Floor 1</option>
+                <option value="2">Floor 2</option>
+                <option value="3">Floor 3</option>
+            </select>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        // Initialize the map
+        var map = L.map('map', {
+            center: [53.47034, -2.23835],
+            zoom: 19,
+            minZoom: 20,
+            maxZoom: 25
+        });
+
+        var imageBounds = [
+            [[53.46, -2.243], [53.461, -2.245]], // Ground Floor
+            [[53.46, -2.243], [53.461, -2.245]], // Floor 1
+            [[53.46, -2.243], [53.461, -2.245]], // Floor 2
+            [[53.46, -2.243], [53.461, -2.245]], // Floor 3
+        ];
+
+        var imageUrls = [
+            'IOS-00-Access-1.png', // Ground Floor
+            'IOS-01-Access-1.png', // Floor 1
+            'IOS-02-Access-1.png', // Floor 2
+            'IOS-03-Access-1.png', // Floor 3
+        ];
+
+        let currentHighlight = null;
+
+        // Load the initial image for the Ground Floor
+        L.imageOverlay(imageUrls[0], imageBounds[0]).addTo(map);
+        
+        var locations = [
+
+            //Ground Floor
+            { name: "Main Entrance", coords: [53.4606676, -2.2443270]},
+            { name: "G.20", coords: [53.46064, -2.24487], polygonPoints: [[53.4606106, -2.2448791],[53.4606648, -2.2449529],[53.4606650, -2.244797],[53.4606110, -2.244797]] },
+            { name: "G.01", coords: [53.4604002, -2.2447917], polygonPoints: [] },
+
+            // Floor 1
+
+            // Floor 2
+
+            // Floor 3
+
+
+        ];
+
+        // Room data for each floor
+        const floorRooms = {
+            0: ["Main Entrance", "G.01", ],
+            1: ["Room 1A", "Room 1B", "Room 1C"],
+            2: ["Room 2A", "Room 2B", "Room 2C"],
+            3: ["Room 3A", "Room 3B", "Room 3C"]
+        };
+
+        const buildingList = document.getElementById('building-list');
+        const startSelect = document.getElementById('start-select');
+        const endSelect = document.getElementById('end-select');
+
+        // Populate dropdowns with locations
+        locations.forEach(location => {
+            const buildingItem = document.createElement('div');
+            buildingItem.className = 'building-item';
+            buildingItem.textContent = location.name;
+
+            buildingItem.addEventListener('click', function() {
+                if (currentHighlight) {
+                    map.removeLayer(currentHighlight);
+                }
+                map.setView(location.coords, 22);
+                if (location.polygonPoints) {
+                    currentHighlight = L.polygon(location.polygonPoints, { color: "#ff7800", weight: 1 }).addTo(map);
+                }
+            });
+
+            buildingList.appendChild(buildingItem);
+
+            // Add options to the dropdowns
+            const optionStart = document.createElement('option');
+            optionStart.value = location.name;
+            optionStart.textContent = location.name;
+            startSelect.appendChild(optionStart);
+
+            const optionEnd = document.createElement('option');
+            optionEnd.value = location.name;
+            optionEnd.textContent = location.name;
+            endSelect.appendChild(optionEnd);
+        });
+
+        // Event listener for dropdown changes
+        startSelect.addEventListener('change', updateRoute);
+        endSelect.addEventListener('change', updateRoute);
+
+        // Change image and bounds based on selected floor
+        document.getElementById('floor-select').addEventListener('change', function() {
+            const selectedFloor = this.value;
+            const newImageUrl = imageUrls[selectedFloor];
+            const newImageBounds = imageBounds[selectedFloor];
+            if (newImageUrl && newImageBounds) {
+                // Update the image overlay on the map
+                map.eachLayer(function (layer) {
+                    if (layer instanceof L.ImageOverlay) {
+                        map.removeLayer(layer);
+                    }
+                });
+                L.imageOverlay(newImageUrl, newImageBounds).addTo(map);
+            }
+            updateRoomList(selectedFloor);
+        });
+
+        // Function to update the room list based on selected floor
+        function updateRoomList(floor) {
+            buildingList.innerHTML = ''; // Clear current list
+            floorRooms[floor].forEach(room => {
+                const roomItem = document.createElement('div');
+                roomItem.className = 'building-item';
+                roomItem.textContent = room;
+
+                roomItem.addEventListener('click', function() {
+                    // Logic to center the map on the selected room
+                    const roomLocation = locations.find(loc => loc.name === room);
+                    if (roomLocation) {
+                        map.setView(roomLocation.coords, 22);
+                        if (currentHighlight) {
+                            map.removeLayer(currentHighlight);
+                        }
+                        if (roomLocation.polygonPoints) {
+                            currentHighlight = L.polygon(roomLocation.polygonPoints, { color: "#ff7800", weight: 1 }).addTo(map);
+                        }
+                    }
+                });
+
+                buildingList.appendChild(roomItem);
+            });
+        }
+
+        // Load initial room list for Ground Floor
+        updateRoomList(0);
+
+        function updateRoute() {
+            const start = startSelect.value;
+            const end = endSelect.value;
+
+            if (currentRoute) {
+                map.removeLayer(currentRoute);
+            }
+
+            if (start && end) {
+                const routeNodes = findPath(start, end);
+
+                if (routeNodes.length > 0) {
+                    const routePoints = routeNodes.map(node => node.coords);
+                    currentRoute = L.polyline(routePoints, { color: 'blue', weight: 4 }).addTo(map);
+                    map.fitBounds(currentRoute.getBounds());
+                }
+            }
+        }
+
+        map.on('mousemove', function(e) {
+            var zoomLevel = map.getZoom();
+            document.getElementById('coordinates').innerHTML = 
+                'Coordinates: ' + e.latlng.lat.toFixed(7) + ', ' + e.latlng.lng.toFixed(7) + 
+                ' | Zoom: ' + zoomLevel;
+        });
+
+        var bounds = [[53.46, -2.245], [53.461, -2.243]];
+        map.setMaxBounds(bounds);
+        map.on('drag', function() {
+            map.panInsideBounds(bounds);
+        });
+
+        let currentRoute = null; // Variable to hold the current route
+
+        // Define nodes with connections
+        var nodes = [
+
+            //GROUND FLOOR NODES
+            { id: "Main Entrance", coords: [53.4602562, -2.2446321], connections: ["node1"] },
+            { id: "node1", coords: [53.4603395, -2.2446187], connections: ["node2", "G.20"] },
+            { id: "node2", coords: [53.4603399, -2.2447276], connections: ["node1", "node3"] },
+            { id: "node3", coords: [53.4603958, -2.2447313], connections: ["G.26", "node2", "G.01"] },
+            { id: "G.01", coords: [53.4604002, -2.2447917], connections: ["node3"] },
+            
+            
+            
+            
+            // FIRST FLOOR NODES
+
+            // SECOND FLOOR NODES
+
+            // THIRD FLOOR NODES
+
+            // FOURTH FLOOR NODES
+
+            // FIFTH FLOOR NODES
+
+            // SIXTH FLOOR NODES
+
+            // SEVENTH FLOOR NODES
+
+        ];
+
+        // Function to find the path between two nodes
+        function findPath(startId, endId) {
+            let startNode = nodes.find(node => node.id === startId);
+            let endNode = nodes.find(node => node.id === endId);
+
+            if (!startNode || !endNode) {
+                return []; // Return empty if nodes are not found
+            }
+
+            let visited = new Set();
+            let queue = [[startNode]];
+            let paths = [];
+
+            while (queue.length > 0) {
+                let path = queue.shift();
+                let node = path[path.length - 1];
+
+                if (node.id === endId) {
+                    paths.push(path);
+                    continue; // Found a path to the end node
+                }
+
+                if (!visited.has(node.id)) {
+                    visited.add(node.id);
+                    for (let connection of node.connections) {
+                        let nextNode = nodes.find(n => n.id === connection);
+                        if (nextNode) {
+                            queue.push([...path, nextNode]);
+                        }
+                    }
+                }
+            }
+
+            // Return the first found path (you can modify this to return the shortest path)
+            return paths.length > 0 ? paths[0] : [];
+        }
+
+        // Add keydown event listener to copy coordinates to clipboard when "C" is pressed
+        document.addEventListener('keydown', function(event) {
+            if (event.key.toLowerCase() === 'c') {
+                const coordsText = document.getElementById('coordinates').textContent;
+                const coordsArray = coordsText.match(/-?\d+\.\d+/g); // Extract latitude and longitude
+                if (coordsArray && coordsArray.length === 2) {
+                    const latLngText = `${coordsArray[0]}, ${coordsArray[1]}`;
+                    navigator.clipboard.writeText(latLngText).then(function() {
+                        alert('Coordinates copied to clipboard: ' + latLngText);
+                    }).catch(function(err) {
+                        console.error('Could not copy text: ', err);
+                    });
+                }
+            }
+        });
+
+
+        // Add event listener for the "Go Back" button
+        document.getElementById('go-back-button').addEventListener('click', function() {
+            window.location.href = 'index.html'; // Redirect to index.html
+        });
+    </script>
+</body>
+</html>
