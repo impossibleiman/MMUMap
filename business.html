@@ -160,9 +160,13 @@
 
             //Ground Floor
             { name: "Main Entrance", coords: [53.4604334, -2.2440326]},
-            { name: "Back Entrance", coords: [53.4605061, -2.2438757]},
+            { name: "Back Entrance", coords: [53.4606335, -2.2437371]},
             { name: "G.26", coords: [53.46064, -2.24487], polygonPoints: [[53.4606106, -2.2448791],[53.4606648, -2.2449529],[53.4606650, -2.244797],[53.4606110, -2.244797]] },
-
+            { name: "G.27", coords: [53.4605550, -2.2445578]},
+            { name: "G.33", coords: [53.4607073, -2.2439419]},
+            { name: "G.34", coords: [53.4607073, -2.2440665]},
+            { name: "G.35", coords: [53.4607073, -2.2441939]},
+            { name: "G.36", coords: [53.4607073, -2.2442772]},
             // Floor 1
             // Floor 2
             // Floor 3
@@ -174,7 +178,7 @@
 
         // Room data for each floor
         const floorRooms = {
-            0: ["Main Entrance", "Back Entrance", "G.26", ],
+            0: ["Main Entrance", "Back Entrance", "G.26", "G.27", "G.33", "G.34", "G.35", "G.36" ],
             1: ["Room 1A", "Room 1B", "Room 1C"],
             2: ["Room 2A", "Room 2B", "Room 2C"],
             3: ["Room 3A", "Room 3B", "Room 3C"],
@@ -307,10 +311,27 @@
 
             //GROUND FLOOR NODES
             { id: "Main Entrance", coords: [53.4604334, -2.2440326], connections: ["node1"] },
-            { id: "node1", coords: [53.4604331, -2.2447166], connections: ["node2", "G.26"] },
-            { id: "G.26", coords: [53.4603796, -2.2447152], connections: ["G.21", "node1"] },
-            
-            
+            { id: "node1", coords: [53.4604331, -2.2441312], connections: ["node2", "node4", "Main Entrance"] },
+            { id: "node2", coords: [53.4604331, -2.2445578], connections: ["node3", "G.27", "node1"] },         //Food Court Node
+            { id: "node3", coords: [53.4604331, -2.2447166], connections: ["G.26", "node2"] },
+            { id: "G.26", coords: [53.4603796, -2.2447152], connections: ["node3"] },
+            { id: "G.27", coords: [53.4605550, -2.2445578], connections: ["node2"] },
+            { id: "node4", coords: [53.4604990, -2.2441312], connections: ["node5", "node1"] },
+            { id: "node5", coords: [53.4604990, -2.2439936], connections: ["node6","node9", "node4"] },     //Reception Node
+            { id: "node6", coords: [53.4604990, -2.2439743], connections: ["node7", "node5"] },
+            { id: "node7", coords: [53.4605918, -2.2438424], connections: ["node8", "node6",] },
+            { id: "node8", coords: [53.4605918, -2.2437371], connections: ["Back Entrance", "node7",] },
+            { id: "Back Entrance", coords: [53.4606335, -2.2437371], connections: ["node8"] },
+            { id: "node9", coords: [53.4605788, -2.2439936], connections: ["node10", "node5"] },
+            { id: "node10", coords: [53.4606776, -2.2441345], connections: ["node11", "node13", "node9"] },           //Top class main connection
+            { id: "node11", coords: [53.4606776, -2.2440665], connections: ["G.34", "node12", "node10"] },
+            { id: "G.34", coords: [53.4607073, -2.2440665], connections: ["node11"] },
+            { id: "node12", coords: [53.4606776, -2.2439357], connections: ["G.33", "node11"] },
+            { id: "G.33", coords: [53.4607073, -2.2439357], connections: ["node12"] },
+            { id: "node13", coords: [53.4606780, -2.2441939], connections: ["G.35", "node14", "node10"] },
+            { id: "G.35", coords: [53.4607073, -2.2441939], connections: ["node13"] },
+            { id: "node14", coords: [53.4606776, -2.2442772], connections: ["G.36", "node13"] },
+            { id: "G.36", coords: [53.4607073, -2.2442772], connections: ["node14"] },
             
             // FIRST FLOOR NODES
             // SECOND FLOOR NODES
