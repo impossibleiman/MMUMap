@@ -51,6 +51,33 @@
             margin-top: 10px; /* Space above the demo output */
         }
 
+        #feedback-button{
+            position: fixed; 
+            top: 20px; 
+            left: 50%; 
+            transform: translateX(-50%); 
+            background-color: #007bff; 
+            color: white; 
+            padding: 10px 20px; 
+            border: none; 
+            border-radius: 5px; 
+            z-index: 1000; 
+            text-decoration: none; 
+            font-weight: bold; 
+            font-size: 24px;
+        }
+
+        #info-button{
+            position: fixed;
+            bottom: 1%;
+            left: 1%;
+            background-color: black;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+        }
+
         /* Media query for desktop devices */
         @media (min-width: 768px) {
             body {
@@ -88,7 +115,8 @@
         <div id="building-list"></div>
         <div id="demo"></div> <!-- Element to display location -->
     <div>
-        <a href="https://docs.google.com/forms/d/e/1FAIpQLScZ858OWUabnovb98u-MDVVE77AlNXZK9v4uNk7iPmJywEzNA/viewform" id="feedback-button" style="position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background-color: #007bff; color: white; padding: 10px 20px; border: none; border-radius: 5px; z-index: 1000; text-decoration: none; font-weight: bold; font-size: 24px;">Feedback</a>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLScZ858OWUabnovb98u-MDVVE77AlNXZK9v4uNk7iPmJywEzNA/viewform" id="feedback-button">Feedback</a>
+        <button id="info-button" onclick="showInfo()">How to Use?</button>
 
 
     <script>
@@ -332,6 +360,10 @@
             }
         });
 
-    </script>
+    function showInfo() {
+        alert("This is how you can use the map:\n1. Use the 'Center' button to center the map.\n2. Use the 'Find Me' button to locate your position.\n3. Click on the building names to zoom in on them.\n4. Click on the building on the map to access it.");
+    }
+</script>
+
 </body>
 </html>
