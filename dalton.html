@@ -70,19 +70,45 @@
             border: 1px solid #ccc;
             border-radius: 4px;
         }
-        #floor-controls {
-            position: absolute; /* Make it float */
-            bottom: 30px; /* Position it at the top */
-            right: 10px; /* Adjust as needed */
-            z-index: 1000; /* Ensure it appears above the map */
-            background: rgb(215, 215, 215); /* Background for visibility */
-            padding: 1px;
-            border-radius: 5px;
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 
-            margin-top: 100%;
-            margin-right:20%;
-            margin-left:20%;
+
+        /* Mobile styles */
+        @media only screen and (max-width: 768px) {
+            body {
+                flex-direction: column; /* Stack items vertically */
+            }
+
+            #map{
+                width: 100%;
+                height: 100%;
+            }
+            #sidebar {
+                width: 100%; /* Full width for bottom bar */
+                height: 30%; /* Allow height to adjust */
+                left: 0%;
+                bottom:0
+            }
+
+            #info-button{
+                left: 85%;
+                right: 1%;
+            }
+
+            #route-controls{
+                position: fixed;
+                bottom: 2%;
+                left: 80%;
+                right: 10%;
+                width: 20%;
+            }
+
+            #start-select{
+                width: 90%;
+            }
+
+            #end-select{
+                width: 90%;
+            }
         }
 
     </style>
@@ -103,20 +129,18 @@
     </div>
     <div id="sidebar">
         <h3>Rooms</h3>
-        <div id="coordinates">Coordinates: </div>
+        <select id="floor-select">
+            <option value="0" selected>Ground Floor</option>
+            <option value="1">Floor 1</option>
+            <option value="2">Floor 2</option>
+            <option value="3">Floor 3</option>
+            <option value="4">Floor 4</option>
+            <option value="5">Floor 5</option>
+            <option value="6">Floor 6</option>
+            <option value="7">Floor 7</option>
+        </select>
         <div id="building-list"></div>
-        <div id="floor-controls">
-            <select id="floor-select">
-                <option value="0" selected>Ground Floor</option>
-                <option value="1">Floor 1</option>
-                <option value="2">Floor 2</option>
-                <option value="3">Floor 3</option>
-                <option value="4">Floor 4</option>
-                <option value="5">Floor 5</option>
-                <option value="6">Floor 6</option>
-                <option value="7">Floor 7</option>
-            </select>
-        </div>
+            
     </div>
 
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
@@ -306,12 +330,6 @@
             }
         }
 
-        map.on('mousemove', function(e) {
-            var zoomLevel = map.getZoom();
-            document.getElementById('coordinates').innerHTML = 
-                'Coordinates: ' + e.latlng.lat.toFixed(7) + ', ' + e.latlng.lng.toFixed(7) + 
-                ' | Zoom: ' + zoomLevel;
-        });
 
         var bounds = [[53.46, -2.245], [53.461, -2.243]];
         map.setMaxBounds(bounds);
