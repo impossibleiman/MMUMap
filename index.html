@@ -21,7 +21,10 @@
         }
 
         #sidebar {
-            width: 100%; /* Full width for sidebar */
+            position: fixed; /* Fixed position for bottom bar */
+            bottom: 0; /* Align to bottom */
+            right: 0; /* Align to left */
+            width: 100%; /* Full width for bottom bar */
             background: white;
             border-top: 1px solid #ccc; /* Border on top for mobile */
             padding: 10px;
@@ -29,6 +32,7 @@
             display: flex;
             flex-direction: column; /* Stack items vertically */
         }
+
 
         .building-item {
             padding: 10px;
@@ -91,16 +95,24 @@
             }
         }
 
-        /*mobile*/
-        @media only screen and (max-width: 768px){
-            body{
-                flex-direction: column;
+        /* Mobile styles */
+        @media only screen and (max-width: 768px) {
+            body {
+                flex-direction: column; /* Stack items vertically */
             }
 
-            #sidebar{
-                width: 30%;
+            #sidebar {
+                width: 100%; /* Full width for bottom bar */
+                height: 30%; /* Allow height to adjust */
+                left: 0%;
+            }
+
+            #info-button{
+                left: 90%;
+                right: 1%;
             }
         }
+
     </style>
 </head>
 <body>
