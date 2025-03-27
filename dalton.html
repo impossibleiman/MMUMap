@@ -181,38 +181,20 @@
         L.imageOverlay(imageUrls[0], imageBounds[0]).addTo(map);
         
         var locations = [
-
-            //Ground Floor
             { name: "Main Entrance", coords: [53.4606676, -2.2443270]},
-            { name: "Back Entrance", coords: [53.4605061, -2.2438757]},
             { name: "G.20", coords: [53.46064, -2.24487], polygonPoints: [[53.4606106, -2.2448791],[53.4606648, -2.2449529],[53.4606650, -2.244797],[53.4606110, -2.244797]] },
-            { name: "G.21", coords: [53.46064, -2.24476], polygonPoints: [] },
-            { name: "G.22", coords: [53.46064, -2.24469], polygonPoints: [] },
-            { name: "G.24", coords: [53.46063, -2.24420], polygonPoints: [] },
-            { name: "G.26", coords: [53.46068, -2.24402], polygonPoints: [] },
-            { name: "G.30", coords: [53.46046, -2.24399], polygonPoints: [] },
-            { name: "G.34", coords: [53.46054, -2.24419], polygonPoints: [] },
-            { name: "G.37", coords: [53.46054, -2.24400], polygonPoints: [] },
-            { name: "G.39", coords: [53.460647, -2.243859], polygonPoints: [] },
-            { name: "G.40", coords: [53.46062, -2.24375], polygonPoints: [] },
-            { name: "G.41", coords: [53.46064, -2.24365], polygonPoints: [] },
-            { name: "G.42", coords: [53.46054, -2.24361], polygonPoints: [] },
-            { name: "G.44", coords: [53.46049, -2.24367], polygonPoints: [] },
-
-            // Floor 1
-            { name: "1.01", coords: [53.4606605, -2.2442975], polygonPoints: [] },
-            // Floor 2
-
-            // Floor 3
-
-            // Floor 4
-
-            // Floor 5
-
-            // Floor 6
-
-            // Floor 7
-
+            { name: "G.21", coords: [53.46064, -2.24476], polygonPoints: [[53.4606649, -2.2447955], [53.4605985, -2.2447937], [53.4606650, -2.2447248], [53.4605987, -2.2447241] ] },
+            { name: "G.22", coords: [53.46064, -2.24469], polygonPoints: [[53.4605987, -2.2447241], [53.4606648, -2.2447245], [53.4606661, -2.2446531],[53.4605986, -2.2446541]] },
+            { name: "G.24", coords: [53.46063, -2.24420], polygonPoints: [[53.4606105, -2.2442006], [53.4606177, -2.2442007], [53.4606178, -2.2442142], [53.4606425, -2.2442136], [53.4606427, -2.2441814], [53.4606104, -2.2441812]] },
+            { name: "G.26", coords: [53.46068, -2.24402], polygonPoints: [[53.4606443, -2.2440646], [53.4607163, -2.2440646], [53.4607158, -2.2439745], [53.4606445, -2.2439620]] },
+            { name: "G.30", coords: [53.46046, -2.24399], polygonPoints: [[53.4604182, -2.2440548], [53.4605086, -2.2440614], [53.4605075, -2.2439466], [53.4604171, -2.2439461]] },
+            { name: "G.34", coords: [53.46054, -2.24419], polygonPoints: [[53.4605247, -2.2442195], [53.4605589, -2.2442198], [53.4605585, -2.2441714], [53.4605250, -2.2441712]] },
+            { name: "G.37", coords: [53.46054, -2.24400], polygonPoints: [[53.4605094, -2.2440443], [53.4605765, -2.2440445], [53.4605766, -2.2439534], [53.4605081, -2.2439523]] },
+            { name: "G.39", coords: [53.460647, -2.243859], polygonPoints: [[53.4606096, -2.2439533], [53.4606240, -2.2439539], [53.4606244, -2.2439614], [53.4606804, -2.2439632], [53.4606798, -2.2437670], [53.4606097, -2.2437675]] },
+            { name: "G.40", coords: [53.46062, -2.24375], polygonPoints: [[53.4606093, -2.2437673], [53.4606333, -2.2437667], [53.4606332, -2.2437181], [53.4606095, -2.2437178]] },
+            { name: "G.41", coords: [53.46064, -2.24365], polygonPoints: [[53.4606095, -2.2437177], [53.4606796, -2.2437181], [53.4606796, -2.2435746], [53.4606094, -2.2435748]] },
+            { name: "G.42", coords: [53.46054, -2.24361], polygonPoints: [[53.4605078, -2.2436833], [53.4605753, -2.2436834], [53.4605747, -2.2435407], [53.4605068, -2.2435403]] },
+            { name: "G.44", coords: [53.46049, -2.24367], polygonPoints: [[53.4604623, -2.2437233], [53.4604958, -2.2437237], [53.4604956, -2.2437172], [53.4605073, -2.2437171], [53.4605073, -2.2436136], [53.4604623, -2.2436135]] },
         ];
 
         // Room data for each floor
@@ -341,31 +323,46 @@
 
         // Define nodes with connections
         var nodes = [
-
-            //GROUND FLOOR NODES
             { id: "G.20", coords: [53.46064, -2.24487], connections: ["node1"] },
             { id: "node1", coords: [53.4605799, -2.2448003], connections: ["node2", "G.20"] },
-            { id: "node2", coords: [53.4605799, -2.24476], connections: ["G.21", "node1", "node3"] },
+            { id: "node2", coords: [53.4605799, -2.24476], connections: ["G.21", "node1", "node4"] },
             { id: "G.21", coords: [53.46064, -2.24476], connections: ["node2"] },
-            { id: "node3", coords: [53.4606030, -2.2443759], connections: ["G.26", "node2", "Stairs1"] },
-            { id: "G.26", coords: [53.46068, -2.24402], connections: ["node3"] },
-            
-            
-            { id: "Stairs1", coords: [53.4604697, -2.2438301], connections: ["node3", "1.01"] },
-            
-            
-            // FIRST FLOOR NODES
-            { id: "1.01", coords: [53.4606577, -2.2442988], connections: ["Stairs1"] },
-
-
-            // SECOND FLOOR NODES
-            // THIRD FLOOR NODES
-            // FOURTH FLOOR NODES
-            // FIFTH FLOOR NODES
-            // SIXTH FLOOR NODES
-            // SEVENTH FLOOR NODES
-
+            { id: "G.22", coords: [53.4606403, -2.2446864], connections: ["node4"] },
+            { id: "node4", coords: [53.4605797, -2.2446859], connections: ["node2", "node5","G.22" ] },
+            { id: "node5", coords: [53.4605799, -2.2443728], connections: ["node4","node6"] },
+            { id: "node6", coords: [53.4606008, -2.2443731], connections: ["node5", "node7"] },
+            { id: "Main Entrance", coords: [53.4606594, -2.2443250], connections: ["node7"] },
+            { id: "node7", coords: [53.4606012, -2.2443242], connections: ["node6", "node8","Main Entrance"] },
+            { id: "node8", coords: [53.4606020, -2.2441918], connections: ["node7", "G.24", "node9"] },
+            { id: "G.24", coords: [53.4606263, -2.2441922], connections: ["node8"] },
+            { id: "node9", coords: [53.4606017, -2.2441168], connections: ["node8","node10","node15"] },
+            { id: "node10", coords: [53.4605340, -2.2441114], connections: ["node9", "node11"] },
+            { id: "node11", coords: [53.4605340, -2.2441460], connections: ["node10","G.34","node12"] },
+            { id: "G.34", coords: [53.4605339, -2.2441936], connections: ["node11"] },
+            { id: "node12", coords: [53.4604989, -2.2441446], connections: ["node11","node13"] },
+            { id: "node13", coords: [53.4604992, -2.2441213], connections: ["node12","node14"] },
+            { id: "node14", coords: [53.4604658, -2.2441203], connections: ["node13","G.30"] },
+            { id: "G.30", coords: [53.4604652, -2.2440256], connections: ["node14"] },
+            { id: "node15", coords: [53.4606024, -2.2440880], connections: ["node9","node16"] },
+            { id: "node16", coords: [53.4605857, -2.2440873], connections: ["node15","node17"] },
+            { id: "node17", coords: [53.4605866, -2.2440025], connections: ["node16","G.37","node18"] },
+            { id: "G.37", coords: [53.4605458, -2.2440011], connections: ["node17"] },
+            { id: "node18", coords: [53.4605869, -2.2439780], connections: ["node17","G.26","node19"] },
+            { id: "G.26", coords: [53.4606601, -2.2439792], connections: ["node18"] },
+            { id: "node19", coords: [53.4605865, -2.2439252], connections: ["node18","G.39","node20"] },
+            { id: "G.39", coords: [53.4606415, -2.2439259], connections: ["node19"] },
+            { id: "node20", coords: [53.4605867, -2.2437592], connections: ["node19","G.40","node21"] },
+            { id: "G.40", coords: [53.4606208, -2.2437564], connections: ["node20"] },
+            { id: "node21", coords: [53.4605863, -2.2436878], connections: ["node20","G.41","node22"] },
+            { id: "G.41", coords: [53.4606345, -2.2436874], connections: ["node21"] },
+            { id: "node22", coords: [53.4605866, -2.2435926], connections: ["node21","G.42","node23"] },
+            { id: "G.42", coords: [53.4605538, -2.2435915], connections: ["node22"] },
+            { id: "node23", coords: [53.4605873, -2.2435290], connections: ["node22","node24"] },
+            { id: "node24", coords: [53.4605015, -2.2435293], connections: ["node23","G.44"] },
+            { id: "G.44", coords: [53.4605015, -2.2436628], connections: ["node24"] },
+            // Add more nodes as needed
         ];
+
 
         // Function to find the path between two nodes
         function findPath(startId, endId) {
