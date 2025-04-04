@@ -129,6 +129,7 @@
     </div>
     <div id="sidebar">
         <h3>Rooms</h3>
+        <div id="coordinates">Coordinates: </div>
         <select id="floor-select">
             <option value="0" selected>Ground Floor</option>
             <option value="1">Floor 1</option>
@@ -181,9 +182,16 @@
         L.imageOverlay(imageUrls[0], imageBounds[0]).addTo(map);
         
         var locations = [
+
+            { name: "Stair 1", coords: [53.4605387, -2.2447146]},
+            { name: "Stair 2", coords: [53.4605511, -2.2443087]},
+            { name: "Stair 3", coords: [53.4604731, -2.2435295]},
+
+            //0
             { name: "Main Entrance", coords: [53.4606676, -2.2443270]},
+            { name: "Back Entrance", coords: [53.4605065, -2.2438693]},
             { name: "G.20", coords: [53.46064, -2.24487], polygonPoints: [[53.4606106, -2.2448791],[53.4606648, -2.2449529],[53.4606650, -2.244797],[53.4606110, -2.244797]] },
-            { name: "G.21", coords: [53.46064, -2.24476], polygonPoints: [[53.4606649, -2.2447955], [53.4605985, -2.2447937], [53.4606650, -2.2447248], [53.4605987, -2.2447241] ] },
+            { name: "G.21", coords: [53.46064, -2.24476], polygonPoints: [[53.4606649, -2.2447955], [53.4606650, -2.2447248], [53.4605987, -2.2447241], [53.4605985, -2.2447937] ] },
             { name: "G.22", coords: [53.46064, -2.24469], polygonPoints: [[53.4605987, -2.2447241], [53.4606648, -2.2447245], [53.4606661, -2.2446531],[53.4605986, -2.2446541]] },
             { name: "G.24", coords: [53.46063, -2.24420], polygonPoints: [[53.4606105, -2.2442006], [53.4606177, -2.2442007], [53.4606178, -2.2442142], [53.4606425, -2.2442136], [53.4606427, -2.2441814], [53.4606104, -2.2441812]] },
             { name: "G.26", coords: [53.46068, -2.24402], polygonPoints: [[53.4606443, -2.2440646], [53.4607163, -2.2440646], [53.4607158, -2.2439745], [53.4606445, -2.2439620]] },
@@ -195,53 +203,179 @@
             { name: "G.41", coords: [53.46064, -2.24365], polygonPoints: [[53.4606095, -2.2437177], [53.4606796, -2.2437181], [53.4606796, -2.2435746], [53.4606094, -2.2435748]] },
             { name: "G.42", coords: [53.46054, -2.24361], polygonPoints: [[53.4605078, -2.2436833], [53.4605753, -2.2436834], [53.4605747, -2.2435407], [53.4605068, -2.2435403]] },
             { name: "G.44", coords: [53.46049, -2.24367], polygonPoints: [[53.4604623, -2.2437233], [53.4604958, -2.2437237], [53.4604956, -2.2437172], [53.4605073, -2.2437171], [53.4605073, -2.2436136], [53.4604623, -2.2436135]] },
+
+            // 1
+            { name: "1.01", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "1.04", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "1.05", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "1.06", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "1.07", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "1.08", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "1.10", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "1.11", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "1.12", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "1.15", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "1.17", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "1.18", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "1.19", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "1.20", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "1.21", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "1.22", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "1.23", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "1.26", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "1.29", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "1.30", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "1.32", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "1.34", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "1.35", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "1.36", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "1.37", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "1.38", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "1.39", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+
+            // 2
+            { name: "2.01", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "2.04", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "2.07", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "2.08", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "2.11", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "2.12", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "2.13", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "2.14", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "2.15", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "2.16", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "2.22", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "2.25", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "2.30", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "C.2.31", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "C.2.32", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "C.2.33", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "C.2.34", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "C.2.35", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "C.2.37", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+
+           // 3
+            { name: "3.01", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "3.02", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "3.03", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "3.18", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "3.23", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "3.25", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "3.27", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "3.29", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "3.31", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "3.33", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "3.38", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "3.39", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "3.42", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "3.43", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "3.44", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "3.46", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "3.48", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "3.50", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "3.51", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "C.3.52", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "C.3.53", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+
+            // 4
+            { name: "4.47", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "4.48", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "4.46", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "4.16", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "4.18", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "4.20", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "4.22", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "4.24", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "4.26", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "4.28", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "4.30", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "4.31", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "4.49", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "4.56", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "4.53", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "4.55", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "4.05", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "4.04", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "4.01", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "4.54", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+
+            // 5
+            { name: "5.39", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "5.40", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "5.41", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "5.11", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "5.13", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "5.15", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "5.17", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "5.19", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "5.2", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "5.23", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "5.25", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "5.26", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "5.47", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "5.43", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "5.45", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "5.46", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+
+            // 6
+            { name: "6.36", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "6.11", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "6.13", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "6.15", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "6.17", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "6.19", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "6.21", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "6.23", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "6.25", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "6.26", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "6.37", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "6.38", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "6.39", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+
+            // 7
+            { name: "7.05", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "7.06", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "7.07", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "7.08", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+            { name: "7.09", coords: [ , ], polygonPoints: [[ , ],[ , ],[ , ],[ , ]] },
+
+            
         ];
 
         // Room data for each floor
         const floorRooms = {
-            0: ["Main Entrance", "Back Entrance", "G.20", "G.21", "G.22", "G.24", "G.26", "G.30", "G.34", "G.37", "G.39", "G.40", "G.41", "G.42", "G.44", ],
-            1: ["Room 1A", "Room 1B", "Room 1C"],
-            2: ["Room 2A", "Room 2B", "Room 2C"],
-            3: ["Room 3A", "Room 3B", "Room 3C"],
-            4: ["Room 4A", "Room 4B", "Room 4C"],
-            5: ["Room 5A", "Room 5B", "Room 5C"],
-            6: ["Room 6A", "Room 6B", "Room 6C"],
-            7: ["Room 7A", "Room 7B", "Room 7C"]
+            0: ["Main Entrance", "Back Entrance", "G.20", "G.21", "G.22", "G.24", "G.26", "G.30", "G.34", "G.37", "G.39", "G.40", "G.41", "G.42", "G.44", "Stair 1", "Stair 2", "Stair 3"],
+            1: ["Stairs 1", "Stairs 2", "Stairs 3", "1.01", "1.04", "1.05", "1.06", "1.07", "1.08", "1.10", "1.11", "1.12", "1.15", "1.17", "1.18", "1.19", "1.20", "1.21", "1.22", "1.23", "1.26", "1.29", "1.30", "1.32", "1.34", "1.35", "1.36", "1.37", "1.38", "1.39"],
+            2: ["Stairs 1", "Stairs 2", "Stairs 3", "2.01", "2.04", "2.07", "2.08", "2.11", "2.12", "2.13", "2.14", "2.15", "2.16", "2.22", "2.25", "2.30", "C.2.31", "C.2.32", "C.2.33", "C.2.34", "C.2.35", "C.2.37"],
+            3: ["Stairs 1", "Stairs 2", "Stairs 3", "3.01", "3.02", "3.03", "3.18", "3.23", "3.25", "3.27", "3.29", "3.31", "3.33", "3.38", "3.39", "3.42", "3.43", "3.44", "3.46", "3.48", "3.50", "3.51", "C.3.52", "C.3.53"],
+            4: ["Stairs 1", "Stairs 2", "Stairs 3", "4.47", "4.48", "4.46", "4.16", "4.18", "4.20", "4.22", "4.24", "4.26", "4.28", "4.30", "4.31", "4.49", "4.56", "4.53", "4.55", "4.05", "4.04", "4.01", "4.54"],
+            5: ["Stairs 1", "Stairs 2", "5.39", "5.40", "5.41", "5.11", "5.13", "5.15", "5.17", "5.19", "5.2", "5.23", "5.25", "5.26", "5.47", "5.43", "5.45", "5.46"],
+            6: ["Stairs 1", "Stairs 2", "6.36", "6.11", "6.13", "6.15", "6.17", "6.19", "6.21", "6.23", "6.25", "6.26", "6.37", "6.38", "6.39"],
+            7: ["Stairs 1", "Stairs 2", "7.05", "7.06", "7.07", "7.08", "7.09"]
         };
 
         const buildingList = document.getElementById('building-list');
         const startSelect = document.getElementById('start-select');
         const endSelect = document.getElementById('end-select');
 
-        // Populate dropdowns with locations
-        locations.forEach(location => {
-            const buildingItem = document.createElement('div');
-            buildingItem.className = 'building-item';
-            buildingItem.textContent = location.name;
+        function populateDropdowns(floor) {
+            // Clear existing options
+            startSelect.innerHTML = '<option value="" disabled selected>Select Start</option>';
+            endSelect.innerHTML = '<option value="" disabled selected>Select End</option>';
 
-            buildingItem.addEventListener('click', function() {
-                if (currentHighlight) {
-                    map.removeLayer(currentHighlight);
-                }
-                map.setView(location.coords, 23);
-                if (location.polygonPoints) {
-                    currentHighlight = L.polygon(location.polygonPoints, { color: "#ff7800", weight: 1 }).addTo(map);
-                }
+            // Add options for the selected floor
+            floorRooms[floor].forEach(room => {
+                const optionStart = document.createElement('option');
+                optionStart.value = room;
+                optionStart.textContent = room;
+                startSelect.appendChild(optionStart);
+
+                const optionEnd = document.createElement('option');
+                optionEnd.value = room;
+                optionEnd.textContent = room;
+                endSelect.appendChild(optionEnd);
             });
-
-            buildingList.appendChild(buildingItem);
-
-            // Add options to the dropdowns
-            const optionStart = document.createElement('option');
-            optionStart.value = location.name;
-            optionStart.textContent = location.name;
-            startSelect.appendChild(optionStart);
-
-            const optionEnd = document.createElement('option');
-            optionEnd.value = location.name;
-            optionEnd.textContent = location.name;
-            endSelect.appendChild(optionEnd);
-        });
+        }
 
         // Event listener for dropdown changes
         startSelect.addEventListener('change', updateRoute);
@@ -261,7 +395,18 @@
                 });
                 L.imageOverlay(newImageUrl, newImageBounds).addTo(map);
             }
-            updateRoomList(selectedFloor);
+            map.setView([53.4605827, -2.2440313], 20);
+            if(currentHighlight){
+            map.removeLayer(currentHighlight); 
+            }
+            document.getElementById('start-select').selectedIndex = 0; // Reset to default
+            document.getElementById('end-select').selectedIndex = 0; // Reset to default
+            if(currentRoute){
+            map.removeLayer(currentRoute);
+            }
+
+            populateDropdowns(selectedFloor); // Populate dropdowns for the selected floor
+            updateRoomList(selectedFloor);        
         });
 
         // Function to update the room list based on selected floor
@@ -276,7 +421,7 @@
                     // Logic to center the map on the selected room
                     const roomLocation = locations.find(loc => loc.name === room);
                     if (roomLocation) {
-                        map.setView(roomLocation.coords, 23);
+                        map.setView(roomLocation.coords, 22);
                         if (currentHighlight) {
                             map.removeLayer(currentHighlight);
                         }
@@ -291,6 +436,7 @@
         }
 
         // Load initial room list for Ground Floor
+        populateDropdowns(0);
         updateRoomList(0);
 
         function updateRoute() {
@@ -312,6 +458,12 @@
             }
         }
 
+        map.on('mousemove', function(e) {
+            var zoomLevel = map.getZoom();
+            document.getElementById('coordinates').innerHTML = 
+                'Coordinates: ' + e.latlng.lat.toFixed(7) + ', ' + e.latlng.lng.toFixed(7) + 
+                ' | Zoom: ' + zoomLevel;
+        });
 
         var bounds = [[53.46, -2.245], [53.461, -2.243]];
         map.setMaxBounds(bounds);
@@ -322,45 +474,194 @@
         let currentRoute = null; // Variable to hold the current route
 
         // Define nodes with connections
-        var nodes = [
-            { id: "G.20", coords: [53.46064, -2.24487], connections: ["node1"] },
-            { id: "node1", coords: [53.4605799, -2.2448003], connections: ["node2", "G.20"] },
-            { id: "node2", coords: [53.4605799, -2.24476], connections: ["G.21", "node1", "node4"] },
-            { id: "G.21", coords: [53.46064, -2.24476], connections: ["node2"] },
-            { id: "G.22", coords: [53.4606403, -2.2446864], connections: ["node4"] },
-            { id: "node4", coords: [53.4605797, -2.2446859], connections: ["node2", "node5","G.22" ] },
-            { id: "node5", coords: [53.4605799, -2.2443728], connections: ["node4","node6"] },
-            { id: "node6", coords: [53.4606008, -2.2443731], connections: ["node5", "node7"] },
-            { id: "Main Entrance", coords: [53.4606594, -2.2443250], connections: ["node7"] },
-            { id: "node7", coords: [53.4606012, -2.2443242], connections: ["node6", "node8","Main Entrance"] },
-            { id: "node8", coords: [53.4606020, -2.2441918], connections: ["node7", "G.24", "node9"] },
-            { id: "G.24", coords: [53.4606263, -2.2441922], connections: ["node8"] },
-            { id: "node9", coords: [53.4606017, -2.2441168], connections: ["node8","node10","node15"] },
-            { id: "node10", coords: [53.4605340, -2.2441114], connections: ["node9", "node11"] },
-            { id: "node11", coords: [53.4605340, -2.2441460], connections: ["node10","G.34","node12"] },
-            { id: "G.34", coords: [53.4605339, -2.2441936], connections: ["node11"] },
-            { id: "node12", coords: [53.4604989, -2.2441446], connections: ["node11","node13"] },
-            { id: "node13", coords: [53.4604992, -2.2441213], connections: ["node12","node14"] },
-            { id: "node14", coords: [53.4604658, -2.2441203], connections: ["node13","G.30"] },
-            { id: "G.30", coords: [53.4604652, -2.2440256], connections: ["node14"] },
-            { id: "node15", coords: [53.4606024, -2.2440880], connections: ["node9","node16"] },
-            { id: "node16", coords: [53.4605857, -2.2440873], connections: ["node15","node17"] },
-            { id: "node17", coords: [53.4605866, -2.2440025], connections: ["node16","G.37","node18"] },
-            { id: "G.37", coords: [53.4605458, -2.2440011], connections: ["node17"] },
-            { id: "node18", coords: [53.4605869, -2.2439780], connections: ["node17","G.26","node19"] },
-            { id: "G.26", coords: [53.4606601, -2.2439792], connections: ["node18"] },
-            { id: "node19", coords: [53.4605865, -2.2439252], connections: ["node18","G.39","node20"] },
-            { id: "G.39", coords: [53.4606415, -2.2439259], connections: ["node19"] },
-            { id: "node20", coords: [53.4605867, -2.2437592], connections: ["node19","G.40","node21"] },
-            { id: "G.40", coords: [53.4606208, -2.2437564], connections: ["node20"] },
-            { id: "node21", coords: [53.4605863, -2.2436878], connections: ["node20","G.41","node22"] },
-            { id: "G.41", coords: [53.4606345, -2.2436874], connections: ["node21"] },
-            { id: "node22", coords: [53.4605866, -2.2435926], connections: ["node21","G.42","node23"] },
-            { id: "G.42", coords: [53.4605538, -2.2435915], connections: ["node22"] },
-            { id: "node23", coords: [53.4605873, -2.2435290], connections: ["node22","node24"] },
-            { id: "node24", coords: [53.4605015, -2.2435293], connections: ["node23","G.44"] },
-            { id: "G.44", coords: [53.4605015, -2.2436628], connections: ["node24"] },
-            // Add more nodes as needed
+var nodes = [
+
+
+        //GLOBAL NODES
+        { id: "Stair 1", coords: [53.4605387, -2.2447146], connections: ["GF4b"] },
+        { id: "Stair 2", coords: [53.4605511, -2.2443087], connections: ["GF6b"] },
+        { id: "Stair 3", coords: [53.4604731, -2.2435295], connections: ["GF24"] },
+
+        // GROUND FLOOR
+        { id: "G.20", coords: [53.46064, -2.24487], connections: ["GF1"] },
+        { id: "GF1", coords: [53.4605799, -2.2448003], connections: ["GF2", "G.20"] },
+        { id: "GF2", coords: [53.4605799, -2.24476], connections: ["G.21", "GF1", "GF4"] },
+        { id: "G.21", coords: [53.46064, -2.24476], connections: ["GF2"] },
+        { id: "G.22", coords: [53.4606403, -2.2446864], connections: ["GF4"] },
+        { id: "GF4", coords: [53.4605797, -2.2446859], connections: ["GF2", "GF5", "G.22", "GF4a"] },
+        { id: "GF4a", coords: [53.4605602, -2.2446821], connections: ["GF4", "GF4b"] },
+        { id: "GF4b", coords: [53.4605387, -2.2446821], connections: ["GF4a", "Stair 1"] },
+        { id: "GF5", coords: [53.4605799, -2.2443728], connections: ["GF4", "GF6"] },
+        { id: "GF6", coords: [53.4606008, -2.2443731], connections: ["GF5", "GF7"] },
+        { id: "GF6a", coords: [53.4606010, -2.2443568], connections: ["GF6", "GF6b"] },
+        { id: "GF6b", coords: [53.4605508, -2.2443600], connections: ["GF6a", "Stair 2"] },
+        { id: "Main Entrance", coords: [53.4606594, -2.2443250], connections: ["GF7"] },
+        { id: "GF7", coords: [53.4606012, -2.2443242], connections: ["GF6", "GF6a", "GF8", "Main Entrance"] },
+        { id: "GF8", coords: [53.4606020, -2.2441918], connections: ["GF7", "G.24", "GF9"] },
+        { id: "G.24", coords: [53.4606263, -2.2441922], connections: ["GF8"] },
+        { id: "GF9", coords: [53.4606017, -2.2441168], connections: ["GF8", "GF10", "GF15"] },
+        { id: "GF10", coords: [53.4605340, -2.2441114], connections: ["GF9", "GF11"] },
+        { id: "GF11", coords: [53.4605340, -2.2441460], connections: ["GF10", "G.34", "GF12"] },
+        { id: "G.34", coords: [53.4605339, -2.2441936], connections: ["GF11"] },
+        { id: "GF12", coords: [53.4604989, -2.2441446], connections: ["GF11", "GF13"] },
+        { id: "GF13", coords: [53.4604992, -2.2441213], connections: ["GF12", "GF14"] },
+        { id: "GF14", coords: [53.4604658, -2.2441203], connections: ["GF13", "G.30"] },
+        { id: "G.30", coords: [53.4604652, -2.2440256], connections: ["GF14"] },
+        { id: "GF15", coords: [53.4606024, -2.2440880], connections: ["GF9", "GF16"] },
+        { id: "GF16", coords: [53.4605857, -2.2440873], connections: ["GF15", "GF17"] },
+        { id: "GF17", coords: [53.4605866, -2.2440025], connections: ["GF16", "G.37", "GF18"] },
+        { id: "G.37", coords: [53.4605458, -2.2440011], connections: ["GF17"] },
+        { id: "GF18", coords: [53.4605869, -2.2439780], connections: ["GF17", "G.26", "GF19"] },
+        { id: "Back Entrance", coords: [53.4605060, -2.2438710], connections: ["GF19a"] },
+        { id: "G.26", coords: [53.4606601, -2.2439792], connections: ["GF18"] },
+        { id: "GF19", coords: [53.4605865, -2.2439252], connections: ["GF18", "GF19a", "G.39", "GF20"] },
+        { id: "GF19a", coords: [53.4605858, -2.2438670], connections: ["GF19", "Back Entrance", "GF20"] },
+        { id: "G.39", coords: [53.4606415, -2.2439259], connections: ["GF19"] },
+        { id: "GF20", coords: [53.4605867, -2.2437564], connections: ["GF19a", "G.40", "GF21"] },
+        { id: "G.40", coords: [53.4606208, -2.2437564], connections: ["GF20"] },
+        { id: "GF21", coords: [53.4605863, -2.2436878], connections: ["GF20", "G.41", "GF22"] },
+        { id: "G.41", coords: [53.4606345, -2.2436874], connections: ["GF21"] },
+        { id: "GF22", coords: [53.4605866, -2.2435926], connections: ["GF21", "G.42", "GF23"] },
+        { id: "G.42", coords: [53.4605538, -2.2435915], connections: ["GF22"] },
+        { id: "GF23", coords: [53.4605873, -2.2435290], connections: ["GF22", "GF24"] },
+        { id: "GF24", coords: [53.4605015, -2.2435293], connections: ["GF23", "G.44", "Stair 3"] },
+        { id: "G.44", coords: [53.4605015, -2.2436628], connections: ["GF24"] },
+        
+        // First Floor
+        { id: "1.01", coords: [], connections: [] },
+        { id: "1.04", coords: [], connections: [] },
+        { id: "1.05", coords: [], connections: [] },
+        { id: "1.06", coords: [], connections: [] },
+        { id: "1.07", coords: [], connections: [] },
+        { id: "1.08", coords: [], connections: [] },
+        { id: "1.10", coords: [], connections: [] },
+        { id: "1.11", coords: [], connections: [] },
+        { id: "1.12", coords: [], connections: [] },
+        { id: "1.15", coords: [], connections: [] },
+        { id: "1.17", coords: [], connections: [] },
+        { id: "1.18", coords: [], connections: [] },
+        { id: "1.19", coords: [], connections: [] },
+        { id: "1.20", coords: [], connections: [] },
+        { id: "1.21", coords: [], connections: [] },
+        { id: "1.22", coords: [], connections: [] },
+        { id: "1.23", coords: [], connections: [] },
+        { id: "1.26", coords: [], connections: [] },
+        { id: "1.29", coords: [], connections: [] },
+        { id: "1.30", coords: [], connections: [] },
+        { id: "1.32", coords: [], connections: [] },
+        { id: "1.34", coords: [], connections: [] },
+        { id: "1.35", coords: [], connections: [] },
+        { id: "1.36", coords: [], connections: [] },
+        { id: "1.37", coords: [], connections: [] },
+        { id: "1.38", coords: [], connections: [] },
+        { id: "1.39", coords: [], connections: [] },
+
+        // Second Floor
+        { id: "2.01", coords: [], connections: [] },
+        { id: "2.04", coords: [], connections: [] },
+        { id: "2.07", coords: [], connections: [] },
+        { id: "2.08", coords: [], connections: [] },
+        { id: "2.11", coords: [], connections: [] },
+        { id: "2.12", coords: [], connections: [] },
+        { id: "2.13", coords: [], connections: [] },
+        { id: "2.14", coords: [], connections: [] },
+        { id: "2.15", coords: [], connections: [] },
+        { id: "2.16", coords: [], connections: [] },
+        { id: "2.22", coords: [], connections: [] },
+        { id: "2.25", coords: [], connections: [] },
+        { id: "2.30", coords: [], connections: [] },
+        { id: "C.2.31", coords: [], connections: [] },
+        { id: "C.2.32", coords: [], connections: [] },
+        { id: "C.2.33", coords: [], connections: [] },
+        { id: "C.2.34", coords: [], connections: [] },
+        { id: "C.2.35", coords: [], connections: [] },
+        { id: "C.2.37", coords: [], connections: [] },
+
+        // Third Floor
+        { id: "3.01", coords: [], connections: [] },
+        { id: "3.02", coords: [], connections: [] },
+        { id: "3.03", coords: [], connections: [] },
+        { id: "3.18", coords: [], connections: [] },
+        { id: "3.23", coords: [], connections: [] },
+        { id: "3.25", coords: [], connections: [] },
+        { id: "3.27", coords: [], connections: [] },
+        { id: "3.29", coords: [], connections: [] },
+        { id: "3.31", coords: [], connections: [] },
+        { id: "3.33", coords: [], connections: [] },
+        { id: "3.38", coords: [], connections: [] },
+        { id: "3.39", coords: [], connections: [] },
+        { id: "3.42", coords: [], connections: [] },
+        { id: "3.43", coords: [], connections: [] },
+        { id: "3.44", coords: [], connections: [] },
+        { id: "3.46", coords: [], connections: [] },
+        { id: "3.48", coords: [], connections: [] },
+        { id: "3.50", coords: [], connections: [] },
+        { id: "3.51", coords: [], connections: [] },
+        { id: "C.3.52", coords: [], connections: [] },
+        { id: "C.3.53", coords: [], connections: [] },
+
+        // Fourth Floor
+        { id: "4.47", coords: [], connections: [] },
+        { id: "4.48", coords: [], connections: [] },
+        { id: "4.46", coords: [], connections: [] },
+        { id: "4.16", coords: [], connections: [] },
+        { id: "4.18", coords: [], connections: [] },
+        { id: "4.20", coords: [], connections: [] },
+        { id: "4.22", coords: [], connections: [] },
+        { id: "4.24", coords: [], connections: [] },
+        { id: "4.26", coords: [], connections: [] },
+        { id: "4.28", coords: [], connections: [] },
+        { id: "4.30", coords: [], connections: [] },
+        { id: "4.31", coords: [], connections: [] },
+        { id: "4.49", coords: [], connections: [] },
+        { id: "4.56", coords: [], connections: [] },
+        { id: "4.53", coords: [], connections: [] },
+        { id: "4.55", coords: [], connections: [] },
+        { id: "4.05", coords: [], connections: [] },
+        { id: "4.04", coords: [], connections: [] },
+        { id: "4.01", coords: [], connections: [] },
+        { id: "4.54", coords: [], connections: [] },
+
+        // Fifth Floor
+        { id: "5.39", coords: [], connections: [] },
+        { id: "5.40", coords: [], connections: [] },
+        { id: "5.41", coords: [], connections: [] },
+        { id: "5.11", coords: [], connections: [] },
+        { id: "5.13", coords: [], connections: [] },
+        { id: "5.15", coords: [], connections: [] },
+        { id: "5.17", coords: [], connections: [] },
+        { id: "5.19", coords: [], connections: [] },
+        { id: "5.2", coords: [], connections: [] },
+        { id: "5.23", coords: [], connections: [] },
+        { id: "5.25", coords: [], connections: [] },
+        { id: "5.26", coords: [], connections: [] },
+        { id: "5.47", coords: [], connections: [] },
+        { id: "5.43", coords: [], connections: [] },
+        { id: "5.45", coords: [], connections: [] },
+        { id: "5.46", coords: [], connections: [] },
+
+        // Sixth Floor
+        { id: "6.36", coords: [], connections: [] },
+        { id: "6.11", coords: [], connections: [] },
+        { id: "6.13", coords: [], connections: [] },
+        { id: "6.15", coords: [], connections: [] },
+        { id: "6.17", coords: [], connections: [] },
+        { id: "6.19", coords: [], connections: [] },
+        { id: "6.21", coords: [], connections: [] },
+        { id: "6.23", coords: [], connections: [] },
+        { id: "6.25", coords: [], connections: [] },
+        { id: "6.26", coords: [], connections: [] },
+        { id: "6.37", coords: [], connections: [] },
+        { id: "6.38", coords: [], connections: [] },
+        { id: "6.39", coords: [], connections: [] },
+
+        // Seventh Floor
+        { id: "7.05", coords: [], connections: [] },
+        { id: "7.06", coords: [], connections: [] },
+        { id: "7.07", coords: [], connections: [] },
+        { id: "7.08", coords: [], connections: [] },
+        { id: "7.09", coords: [], connections: [] },
+        
         ];
 
 
